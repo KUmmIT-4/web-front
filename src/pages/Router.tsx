@@ -7,6 +7,7 @@ import Problem from "./Problem";
 import Review from "./Review";
 import Rank from "./Rank";
 import Profile from "./Profile";
+import ReviewProb from "./ReviewProb";
 
 const Router = () => {
   return (
@@ -17,7 +18,10 @@ const Router = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/prob" element={<Problem />} />
-        <Route path="/review" element={<Review />} />
+        <Route path="review">
+          <Route index element={<Review />} />
+          <Route path=":probNum" element={<ReviewProb />} />
+        </Route>
         <Route path="/rank" element={<Rank />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
