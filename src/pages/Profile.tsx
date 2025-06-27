@@ -1,5 +1,5 @@
 // import React, { useState } from "react";
-import Selected from "../components/selected";
+import Selected from "@/components/selected";
 
 const Profile = () => {
   return (
