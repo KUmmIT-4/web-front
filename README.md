@@ -1,69 +1,50 @@
-# React + TypeScript + Vite
+# 일일 코딩 퀴즈 플랫폼
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 개요
 
-Currently, two official plugins are available:
+ 본 프로젝트는 일일 코딩 객관식 문제 풀이 및 리뷰를 위한 플랫폼입니다. React, Vite, TypeScript를 기반으로 개발된 프론트엔드는 사용자에게 직관적이고 반응형 인터페이스를 제공하여 모바일 환경에서도 최적의 학습 경험을 제공합니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ 주요 기능은 다음과 같습니다:
 
-## Expanding the ESLint configuration
+- **일일 코딩 퀴즈 제공**: 매일 새로운 코딩 퀴즈를 제공하여 사용자의 문제 해결 능력 향상을 돕습니다.
+- **객관식 문제 풀이**: 다양한 난이도의 객관식 문제를 통해 코딩 지식을 점검하고, 즉각적인 피드백을 제공합니다.
+- **상세한 문제 해설**: 각 문제에 대한 상세한 해설을 제공하여 사용자가 정답의 이유를 명확히 이해할 수 있도록 돕습니다.
+- **사용자 맞춤형 리뷰**: 오답노트 기능을 통해 사용자가 틀린 문제를 다시 풀어보고, 취약한 부분을 보완할 수 있도록 지원합니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+ 백엔드는 Spring 기반으로 구축되어 데이터 관리 및 API 제공을 담당하며, 프론트엔드와의 효율적인 통신을 통해 안정적인 서비스 제공을 목표로 합니다. 본 프로젝트는 코딩 학습의 효율성을 높이고, 꾸준한 학습 습관을 형성하는 데 기여할 것입니다.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 작성 근거
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+ 1. **React**: 사용자 인터페이스를 구축하기 위한 선언적이고 효율적인 JavaScript 라이브러리입니다. 컴포넌트 기반 아키텍처를 통해 재사용성을 높이고 유지보수를 용이하게 합니다. (출처: [React 공식 문서](https://react.dev/))
+ 2. **Vite**: 빠른 개발 서버와 빌드 도구를 제공하여 개발 생산성을 향상시킵니다. 특히, 대규모 프로젝트에서 빠른 콜드 스타트와 핫 모듈 교체(HMR)를 통해 개발 경험을 개선합니다. (출처: [Vite 공식 문서](https://vitejs.dev/))
+ 3. **TypeScript**: JavaScript에 정적 타입을 추가하여 코드의 안정성을 높이고, 개발 단계에서 오류를 사전에 발견할 수 있도록 돕습니다. (출처: [TypeScript 공식 문서](https://www.typescriptlang.org/))
+ 4. **Spring**: 엔터프라이즈급 애플리케이션 개발을 위한 포괄적인 프레임워크입니다. 백엔드 로직, 데이터베이스 연동, API 제공 등 다양한 기능을 제공하여 개발 생산성을 높입니다. (출처: [Spring 공식 문서](https://spring.io/))
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 타겟 사용자
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- 코딩(PS)에 재미를 붙이고 싶어하는 학생
+- 하루 한 문제라도 꾸준히 코딩하고 싶은 개발자 지망생
+- 코딩 테스트를 준비하는 취업 준비생
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 참고 자료
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **코딩 교육의 중요성**:
+- 정보통신산업진흥원, SW 중심사회, "2023년 SW 교육의무화 시행계획"
+- 코딩 교육 의무화에 대한 다양한 의견: [https://www.korea.kr/news/policyNewsView.do?newsId=148898232](https://www.korea.kr/news/policyNewsView.do?newsId=148898232)
+- **PS 학습의 어려움**:
+- Baekjoon Online Judge 문제 난이도 및 풀이 현황: [https://www.acmicpc.net/](https://www.acmicpc.net/)
+- 프로그래머스 코딩 테스트 연습: [https://programmers.co.kr/learn/challenges](https://programmers.co.kr/learn/challenges)
+
+## 사용 기술
+
+- React + Vite + typescript
+
+## 타겟
+
+- 모바일
+
+## 프로젝트 페이지
+
+- 프로젝트 - <https://github.com/KUmmIT-4>
+- 백엔드 - <https://github.com/KUmmIT-4/backend>
+- 프론트엔드(현재) - <https://github.com/KUmmIT-4/web-front>
