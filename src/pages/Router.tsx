@@ -8,6 +8,7 @@ import Review from "./Review";
 import Rank from "./Rank";
 import Profile from "./Profile";
 import ReviewProb from "./ReviewProb";
+import NotFound from "./404";
 
 const Router = () => {
   return (
@@ -24,6 +25,10 @@ const Router = () => {
         </Route>
         <Route path="/rank" element={<Rank />} />
         <Route path="/profile" element={<Profile />} />
+
+        {/* error pages */}
+        {/* 404 error */}
+        <Route path="*" element={<NotFound />} />       
       </Routes>
     </BrowserRouter>
   );
