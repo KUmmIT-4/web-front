@@ -29,21 +29,28 @@ const Register = () => {
     setIdMessage("");
   };
 
-  const onBlurId = async () => {
-    if (id === "") return;
-    try {
-      const exists = await checkUsername(id);
-      if (exists) {
-        setIdMessage("이미 존재하는 아이디입니다");
-        setIsId(false);
-      } else {
-        setIdMessage("사용 가능한 아이디입니다");
-        setIsId(true);
-      }
-    } catch (error) {
-      setIdMessage("아이디 중복 확인 실패");
-      setIsId(false);
-    }
+  // const onBlurId = async () => {
+  // if (id === "") return;
+  // try {
+  //   const exists = await checkUsername(id);
+  //   if (exists) {
+  //     console.log("ㄴㄹㄴㄷㄹ");
+  //     setIdMessage("이미 존재하는 아이디입니다");
+  //     setIsId(false);
+  //   } else {
+  //     console.log("ㄴㄹㄷㄴ");
+  //     setIdMessage("사용 가능한 아이디입니다");
+  //     setIsId(true);
+  //   }
+  // } catch (error) {
+  //   console.log("fail");
+  //   setIdMessage("아이디 중복 확인 실패");
+  //   setIsId(false);
+  // }
+  // };
+
+  const onBlurId = () => {
+    setIsId(true);
   };
 
   const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
@@ -103,6 +110,12 @@ const Register = () => {
     if (success) {
       setShowConfirm(true);
     } else {
+      console.log({ id });
+      console.log({ pw });
+      console.log({ isId });
+      console.log({ isPassword });
+      console.log({ isPassword });
+      console.log({ isPassword });
       console.error("회원가입 실패: Confirm 모달 띄우지 않음");
       // 실패 알림을 UI에 띄우고 싶다면 여기서 처리
     }
@@ -111,11 +124,9 @@ const Register = () => {
   useEffect(() => {
     const valid: boolean | null =
       // isId 검사도 필요함
-      isId &&
-      isPassword &&
-      selectedGrade !== "" &&
-      selectedLevel !== "" &&
-      selectedLang !== "";
+      // isId &&
+      // isPassword &&
+      selectedGrade !== "" && selectedLevel !== "" && selectedLang !== "";
     setIsValid(valid);
   }, [pw, selectedGrade, selectedLevel, selectedLang, isPassword]);
 
@@ -247,8 +258,8 @@ const Register = () => {
             : "bg-slate-300 !cursor-default"
         } text-white mt-20 focus:outline-none`}
         label="다음"
-        onClick={isValid ? onChangeBtn : undefined}
-        // onClick={onChangeBtn}
+        // onClick={isValid ? onChangeBtn : undefined}
+        onClick={onChangeBtn}
         disabled={!isValid}
       />
     </div>
