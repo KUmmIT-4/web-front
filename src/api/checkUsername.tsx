@@ -6,7 +6,7 @@ const checkUsername = async (username: string): Promise<boolean> => {
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include",
+    // credentials: "include", // CORS 문제로 인해 일시적으로 제거
     body: JSON.stringify({ username }),
   });
 

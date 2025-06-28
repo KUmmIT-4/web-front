@@ -14,7 +14,7 @@ const userInfo = async ({ username, password }: User): Promise<User> => {
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include", //쿠키 포함 설정
+    // credentials: "include", // CORS 문제로 인해 일시적으로 제거
     body: JSON.stringify({
       username: "kuit",
       password: "aaaaa",
