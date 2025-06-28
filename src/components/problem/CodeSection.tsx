@@ -48,7 +48,7 @@ export default function CodeSection({
         <pre className="overflow-x-auto p-0 m-0 line-numbers text-left"> {/* padding 제거, text-left 추가 */}
           <code 
             ref={codeRef}
-            className={`language-${language} block p-4`} /* block과 padding을 code에 적용 */
+            className={`language-${language} block`} /* block과 padding을 code에 적용 */
           >
             {code}
           </code>
