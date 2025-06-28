@@ -8,7 +8,9 @@ const renderRoutes = (routesObj: { [key: string]: RouteConfig }) => {
     if (route.children) {
       // 중첩 라우트 처리
       return (
-        <Route path={route.path} element={route.element} key={route.path || idx}>
+        <Route path={route.path} key={route.path || idx}>
+          {/* master, index를 추가하여 review route에서 ReviewDetail로 이동할 수 있도록 수정 */}
+          <Route index element={route.element} />
           {route.children.map((child: RouteConfig, cidx: number) => (
             <Route path={child.path} element={child.element} key={child.path || cidx} />
           ))}
