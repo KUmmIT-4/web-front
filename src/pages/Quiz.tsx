@@ -18,7 +18,8 @@ export default function Quiz() {
   const quizParams = location.state as QuizParams ?? {
     tier: 'BRONZE', // 기본값 설정
     level: 1,       // 기본값 설정
-    language: 'CPP'  // 기본값 설정
+    language: 'CPP',  // 기본값 설정
+    userId: 31
   };
   const quizDescriptionRef = useRef<HTMLDivElement>(null);
 
