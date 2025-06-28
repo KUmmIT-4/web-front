@@ -1,6 +1,16 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import path from "./constants/path"; // path.tsx에서 라우트 정보 import
 import type { RouteConfig } from "./types/router"; // RouteConfig 타입 import
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // 창이 포커스될 때 자동으로 다시 가져오지 않도록 설정
+      retry: false, // 실패 시 재시도하지 않도록 설정
+    },
+  },
+});
 
 // master, renderRoutes 함수에 타입 적용
 const renderRoutes = (routesObj: { [key: string]: RouteConfig }) => {
@@ -26,10 +36,12 @@ const renderRoutes = (routesObj: { [key: string]: RouteConfig }) => {
 const Router = () => {
   return (
     <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
       <Routes>
         {/* path.tsx에서 정의한 라우트 정보를 기반으로 동적으로 Route 생성 */}
         {renderRoutes(path)}
       </Routes>
+      </QueryClientProvider>
     </BrowserRouter>
   );
 };

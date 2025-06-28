@@ -40,8 +40,6 @@ export default function ReviewDetailLayout({
   const { title, attemptLanguage, code, quizText: quiztext, description: problem_explanation, level } = data;
   const navigate = useNavigate();
 
-  console.log(quiztext);
-
   const handleBackToList = () => {
     navigate('/review');
   };

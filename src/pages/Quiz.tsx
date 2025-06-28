@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import QuizLayout from "@/components/QuizLayout";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { getQuizData } from "@/api/quiz";
+import submitQuizAnswer from "@/api/quiz";
 import type { Problem, QuizParams } from "@/types/quiz/quiz";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import type { UserInfo } from "@/types/user/user";
 
 export default function Quiz() {
   const location = useLocation();
@@ -27,11 +29,46 @@ export default function Quiz() {
   // 문제 전문 toggle 상태 관리
   const [isQuizDescriptionOpen, setIsQuizDescriptionOpen] = useState(true);
 
+  const userQuery = useQuery({
+    queryKey: ['user'],
+    queryFn: async () => {
+      // master, 사용자 정보를 가져오는 API 호출
+      const response = await fetch('/api/users/me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // 쿠키 포함 설정
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      const data = await response.json();
+      return data as UserInfo;
+    },
+  })
+
+
   // master, useQuery에서 queryFn에 quizNumNumber를 넘김
   const quizQuery = useQuery<Problem, Error>({
     queryKey: ['attempt', quizParams],
     queryFn: () => getQuizData(quizParams),
   });
+
+  // master, useMutation 훅을 사용하여 퀴즈 답변 제출
+  const submitAnswerMutation = useMutation(
+    () => submitQuizAnswer(quizQuery.data.problem_id, userAnswer ?? 0, userQuery.data.userId), // userQuery에서 userId를 가져옴
+    {
+      onSuccess: () => {
+        // master, 성공적으로 제출한 후 로직 (예: 알림)
+        console.log("Answer submitted successfully!");
+      },
+      onError: (error) => {
+        // master, 오류 처리 로직 (예: 오류 메시지 표시)
+        console.error("Failed to submit answer:", error);
+      },
+    }
+  );
 
   useEffect(() => {
     if (quizDescriptionRef.current) {
@@ -99,38 +136,23 @@ export default function Quiz() {
     return <div>No quiz data found.</div>;
   }
 
-  const currentQuestion = quizQuery.data;
   const hasAnswered = userAnswer !== null;
 
   // 답변 선택 핸들러
-  // _isCorrect는 QuizOptions prop 시그니처를 맞추기 위해 남겨둠, 미사용 경고는 무시해도 무방함
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleAnswerSelect = (selectedIndex: number, _isCorrect: boolean) => {
     setUserAnswer(selectedIndex);
+    submitAnswerMutation.mutate(); // master, 선택한 답변 제출
   };
-
-  // 이전 문제로 이동
-  // const handlePrevious = () => {
-  //   if (currentQuestionIndex > 0) {
-  //     setCurrentQuestionIndex(currentQuestionIndex - 1);
-  //     setIsQuizDescriptionOpen(currentQuestionIndex - 1 === 0);
-  //   }
-  // };
-
-  // 다음 문제로 이동
-  // const handleNext = () => {
-  //   // questions이 없고, 퀴즈는 단일 문제로 변경되었으므로 다음 문제로 가는 로직 삭제
-  //   // setIsQuizDescriptionOpen(currentQuestionIndex + 1 === 0);
-  // };
 
   // 퀴즈 완료 처리
   const handleComplete = () => {
-    // const correctCount = userAnswer !== null && userAnswer === currentQuestion.answer_choice ? 1 : 0;
-
-    // alert(
-    //   `퀴즈가 완료되었습니다!\n총 1문제 중 ${correctCount}개 맞추셨습니다.`
-    // );
-    navigate('/home');
+    if (userAnswer !== null) {
+      // master, 답변을 선택한 경우에만 제출
+      navigate('/home');
+    } else {
+      // master, 답변을 선택하지 않은 경우 알림
+      alert("Please select an answer before completing the quiz.");
+    }
   };
 
   return (
