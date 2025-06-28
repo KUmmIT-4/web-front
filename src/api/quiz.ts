@@ -16,7 +16,7 @@ export const getQuizData = async (quizParams: QuizParams): Promise<Problem> => {
       "Content-Type": "application/json", // Content-Type 설정 (JSON 형태)
     },
     credentials: "include", //쿠키 포함 설정
-    body: JSON.stringify(quizParams), // body에 JSON 객체 추가
+    body: JSON.stringify({ ...quizParams, tier: quizParams.tier.toUpperCase() }), // body에 JSON 객체 추가
   });
   if (!response.ok) {
     throw new Error("Network response was not ok");
