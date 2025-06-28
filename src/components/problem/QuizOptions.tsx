@@ -11,13 +11,15 @@ interface QuizOptionsProps {
   onAnswerSelect: (selectedIndex: number, isCorrect: boolean) => void;
   questionIndex: number;
   selectedAnswer: number | null;
+  readonly?: boolean; // 선택지 클릭 방지용
 }
 
 export default function QuizOptions({ 
   options, 
   onAnswerSelect, 
   questionIndex, 
-  selectedAnswer 
+  selectedAnswer,
+  readonly,
 }: QuizOptionsProps) {
   const [showResults, setShowResults] = useState(selectedAnswer !== null);
 
@@ -27,7 +29,7 @@ export default function QuizOptions({
   }, [selectedAnswer]);
 
   const handleOptionClick = (index: number) => {
-    if (selectedAnswer !== null) return; // 이미 답변한 경우 클릭 방지
+    if (selectedAnswer !== null || readonly) return; // 이미 답변한 경우 클릭 방지
 
     const isCorrect = options[index].isCorrect;
     setShowResults(true);
