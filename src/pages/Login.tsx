@@ -1,11 +1,13 @@
 import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import userInfo from "@/api/login.tsx";
 
 const Login = () => {
   const [isValid, setIsValid] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
   const [pw, setPw] = useState<string>("");
+  // const [cookies, setCookies, removeCookies] = useCookies(["token"]);
 
   const onChangeId = (e: any) => {
     const currentId = e.target.value;
@@ -18,17 +20,23 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const valid: boolean =
-      // isId 검사도 필요함
-      // isPassword &&
-      id !== "" && pw !== "";
+    const valid: boolean = id !== "" && pw !== "";
     setIsValid(valid);
   }, [pw, id, isValid]);
 
   const navigate = useNavigate();
-  const handleLog = () => {
-    //todo: isvalid 유효성 검사
-    navigate("/home");
+  const handleLog = async () => {
+    if (!isValid) return; //유효하지 않으면 return
+
+    try {
+      const user = await userInfo({ username: id, password: pw }); //id, pw 보내서 로그인 시도
+      if (user) {
+        console.log("불러오기 성공");
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("불러오기 실패");
+    }
   };
 
   return (
@@ -53,7 +61,6 @@ const Login = () => {
         />
         <Button
           className={`mt-6 bg-blue-200 rounded-lg 
-           ${isValid ? "cursor-pointer" : "cursor-not-allowed"}
           `}
           label="로그인"
           onClick={handleLog}
@@ -64,5 +71,4 @@ const Login = () => {
   );
 };
 
-// ${isValid ? "cursor-pointer" : "cursor-not-allowed"}
 export default Login;
