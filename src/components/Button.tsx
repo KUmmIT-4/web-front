@@ -5,7 +5,6 @@ interface ButtonProps {
   icon?: React.ReactNode;
   label: string;
   onClick?: () => void;
-  color?: string;
 }
 
 const Button = ({ className, icon, label, onClick }: ButtonProps) => {

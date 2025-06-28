@@ -28,7 +28,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <main className="max-w-[540px] w-full px-4">
+      <main className="w-full px-4 mx-auto">
         <div>
           <p className="font-bold text-2xl text-black pt-5.5 pb-7">
             연속도전 3일차
