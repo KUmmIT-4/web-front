@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Header from "@/components/header";
 // import Button from "@/components/Button";
@@ -16,7 +17,14 @@ import codeIcon from "@/assets/images/codeIcon.png";
 import nextArrow from "@/assets/images/next-arrow.png";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const [conti, setConti] = useState(false); // 풀고 있는 문제 유무
+
+  const gotoRank = () => {
+    navigate("/rank");
+  };
+
   return (
     <>
       <Header />
@@ -84,7 +92,10 @@ const Home = () => {
               </span>
               <span className="font-bold">복습하기</span>
             </button>
-            <button className="bg-[var(--disabled)] w-full flex h-14 justify-center items-center gap-2 rounded-2xl">
+            <button
+              className="bg-[var(--disabled)] w-full flex h-14 justify-center items-center gap-2 rounded-2xl"
+              onClick={gotoRank}
+            >
               <span>
                 <img src={trophy} className="size-4.5" />
               </span>
