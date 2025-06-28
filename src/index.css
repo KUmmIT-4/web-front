@@ -68,10 +68,12 @@ a:hover {
 
 body {
   margin: 0;
-  /* display: flex; */
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  /* 하단 바 높이를 제외한 뷰포트 높이로 설정 */
+  /* min-height: calc(100vh - env(safe-area-inset-bottom)); safe area 높이만큼 높이를 줄입니다. */
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 h1 {
