@@ -16,8 +16,10 @@ const userInfo = async ({ username, password }: User): Promise<User> => {
     },
     credentials: "include", //쿠키 포함 설정
     body: JSON.stringify({
-      username: "kuit",
-      password: "aaaaa",
+      username,
+      password,
+      // username: "kkkkk",
+      // password: "aaaaa",
     }),
   });
 
