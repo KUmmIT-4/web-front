@@ -71,15 +71,16 @@ export default function QuizLayout({
       </div>
 
       {/* 현재 서브 문제 - 공통 */}
-        <div className="bg-white rounded-lg shadow-sm mt-[9px]">
+        <div className="bg-white rounded-lg mt-[9px]">
         <div className="mb-4">
           {/* <div className="text-sm text-gray-600 mb-2">
             문제 {currentQuestionIndex + 1} / {totalQuestions}
           </div> */}
           {/* 문제 텍스트와 코드 분리 렌더링 */}
             <div className="text-lg text-gray-800 space-y-4">
-              <div className="whitespace-pre-line text-left">
-                문제: {quiztext}
+              <h3 className="px-[14px] text-lg font-semibold text-gray-800 text-left">문제</h3> {/* 스타일 변경 */}
+              <div className="px-[14px] py-[6px] pb-[10px] text-[#6D7582] leading-relaxed whitespace-pre-line font-semibold text-[14px] text-left"> {/* 스타일 변경 */}
+                {quiztext}
               </div>
               <CodeSection
                 code={code}
@@ -104,6 +105,7 @@ export default function QuizLayout({
           onComplete={onComplete}
           hasAnswered={hasAnswered}
         />
+          <div className='pb-12'></div>
       </div>
       </div>
     </>
