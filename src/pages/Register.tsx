@@ -1,6 +1,6 @@
-// import React from 'react'
+// import React from "react";
 import Button from "@/components/Button";
-import { useState } from "react";
+import { useState, useEffect, type ChangeEvent } from "react";
 
 const Register = () => {
   const [selectedGrade, setSeletedGrade] = useState("");
@@ -10,6 +10,38 @@ const Register = () => {
   let levels: string[] = ["1", "2", "3", "4", "5"];
   let languages: string[] = ["C", "C++", "Java", "JavaScript", "Python"];
 
+  const [pw, setPw] = useState("");
+  const [pwMessage, setPwMessage] = useState("");
+  const [isPassword, setIsPassword] = useState<boolean | null>(null);
+  const [isValid, setIsValid] = useState<boolean | null>(false);
+
+  const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
+    const currentPw = e.target.value;
+    setPw(currentPw);
+    const pwRegExp = /^[a-zA-Z0-9]+$/; //정규 표현식(영문/숫자)
+
+    if (!pwRegExp.test(currentPw)) {
+      setPwMessage("영문, 숫자만 가능합니다");
+      setIsPassword(false);
+    } else if (currentPw.length > 10) {
+      setPwMessage("10글자 이내만 가능합니다");
+      setIsPassword(false);
+    } else {
+      setPwMessage("사용가능한 비밀번호입니다");
+      setIsPassword(true);
+    }
+  };
+
+  useEffect(() => {
+    const valid: boolean | null =
+      // isId 검사도 필요함
+      isPassword &&
+      selectedGrade !== "" &&
+      selectedLevel !== "" &&
+      selectedLang !== "";
+    setIsValid(valid);
+  }, [pw, selectedGrade, selectedLevel, selectedLang, isPassword]);
+
   return (
     <div>
       <title>Reigister</title>
@@ -18,7 +50,7 @@ const Register = () => {
           회원가입
         </h1>
         <div className="flex flex-col gap-4">
-          <div>
+          <form>
             <div className="pb-2 pr-80">아이디</div>
             <input
               className="w-96 h-14 pl-4 rounded-lg border-1 border-solid border-slate-300
@@ -26,16 +58,40 @@ const Register = () => {
               type="text"
               placeholder="아이디를 입력해주세요."
             />
-          </div>
-          <div>
-            <div className="pb-2 pr-80">비밀번호</div>
+            {/* 아이디 유효성 검사 추가 필요*/}
+          </form>
+          <form>
+            <div className="flex items-center pb-2 pl-16 gap-2">
+              <span>비밀번호</span>
+              <span
+                className={`${
+                  pw === ""
+                    ? "text-red-500"
+                    : isPassword
+                    ? "text-blue-500"
+                    : "text-red-500"
+                }`}
+              >
+                {pwMessage}
+              </span>
+            </div>
             <input
-              className="w-96 h-14 pl-4 rounded-lg border-1 border-solid border-slate-300
-        text-slate-500"
+              className={`w-96 h-14 pl-4 rounded-lg 
+              border border-solid
+        text-slate-500 focus:outline-none
+  ${
+    pw === ""
+      ? "border-slate-300"
+      : isPassword
+      ? "border-blue-500"
+      : "border-red-500"
+  }`}
               type="text"
               placeholder="비밀번호를 입력해주세요."
+              value={pw}
+              onChange={onChangePw}
             />
-          </div>
+          </form>
           <div>
             <div className="pb-2 pr-80">코딩 실력</div>
             <div className="flex justify-center flex gap-13 px-5">
@@ -94,7 +150,17 @@ const Register = () => {
           </div>
         </div>
       </div>
-      <Button className="bg-slate-300 text-white mt-20" icon="" label="다음" />
+      <Button
+        className={`${
+          isValid
+            ? "bg-blue-500 cursor-pointer"
+            : "bg-slate-300 !cursor-default"
+        } text-white mt-20 focus:outline-none`}
+        icon=""
+        label="다음"
+        // onClick={isValid?onChangeBtn:undefined}
+        //disabled={!isValid}
+      />
     </div>
   );
 };
