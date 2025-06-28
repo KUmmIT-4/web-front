@@ -6,7 +6,7 @@ interface RankItemProps {
 
 function RankItem({ rank, id, score }: RankItemProps) {
   return (
-    <div className="h-20 flex items-center relative font-medium">
+    <div className="h-20 flex items-center relative font-medium bg-[#fafafb]">
       <span className="text-[17px] mr-2.5">{rank}</span>
       <div className="bg-[var(--disabled)] size-11 rounded-[50%] mr-3"></div>
       <span>{id}</span>
