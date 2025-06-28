@@ -1,10 +1,11 @@
 import React from 'react'
 import { ChevronLeft, User } from "lucide-react"; // chevron-left import
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // useNavigate import
 import Content from '@/components/problem/Content';
 import CodeSection from '@/components/problem/CodeSection';
 
 const Problem = () => {
+  const navigate = useNavigate(); // useNavigate 훅 초기화
   // 예시 코드 데이터 (실제로는 API나 props에서 받아올 예정)
   const sampleCode = `function fibonacci(n) {
   if (n <= 1) {
@@ -33,9 +34,9 @@ console.log(result); // 55`;
       {/* navbar */}
       <div className="flex justify-between">
         {/* 뒤로가기 */}
-        <Link to='' className='p-3 w-12'>
+        <button onClick={() => navigate(-1)} className='p-3 w-12'> {/* onClick 이벤트 핸들러 추가 */}
           <ChevronLeft />
-        </Link>
+        </button>
         {/* 프로필 버튼 */}
         <Link to='' className='p-3 w-12'>
           <User />
