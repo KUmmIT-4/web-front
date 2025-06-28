@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default async function handler(req, res) {
   const { path } = req.query;
   const apiPath = Array.isArray(path) ? path.join('/') : path;
@@ -18,37 +20,44 @@ export default async function handler(req, res) {
     // 백엔드로 요청 프록시
     const backendUrl = `http://15.164.88.35/api/${apiPath}`;
     
-    // 요청 헤더 준비
-    const headers = {
-      'Content-Type': 'application/json',
-    };
-
-    // 요청 body 준비
-    let body = undefined;
-    if (req.method !== 'GET' && req.method !== 'HEAD') {
-      body = JSON.stringify(req.body);
-    }
-    
-    const response = await fetch(backendUrl, {
+    console.log('Proxying request:', {
       method: req.method,
-      headers: headers,
-      body: body,
+      url: backendUrl,
+      body: req.body
     });
 
-    const data = await response.text();
-    
-    // 백엔드 응답을 그대로 전달
-    res.status(response.status);
-    
-    // JSON 응답인지 확인
-    try {
-      const jsonData = JSON.parse(data);
-      res.json(jsonData);
-    } catch {
-      res.send(data);
+    const config = {
+      method: req.method.toLowerCase(),
+      url: backendUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: 10000,
+    };
+
+    // POST, PUT, PATCH 요청에 body 추가
+    if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+      config.data = req.body;
     }
+
+    const response = await axios(config);
+    
+    console.log('Backend response:', {
+      status: response.status,
+      data: response.data
+    });
+
+    res.status(response.status).json(response.data);
+    
   } catch (error) {
-    console.error('Proxy error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Proxy error:', error.message);
+    
+    if (error.response) {
+      // 백엔드에서 오는 에러 응답
+      res.status(error.response.status).json(error.response.data);
+    } else {
+      // 네트워크 에러 등
+      res.status(500).json({ error: 'Internal Server Error', message: error.message });
+    }
   }
 } 
