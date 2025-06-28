@@ -30,7 +30,8 @@ export const getQuizData = async (quizParams: QuizParams): Promise<Problem> => {
  */
 export default async function submitQuizAnswer(
   quizNum: number,
-  pick: number
+  pick: number,
+  userId: number, // 사용자 ID 추가
 ): Promise<void> {
   const response = await fetch(`${API_URL}/api/attempts/${quizNum}`, {
     method: "PATCH",
@@ -41,6 +42,7 @@ export default async function submitQuizAnswer(
     credentials: "include", //쿠키 포함 설정
     body: JSON.stringify({
       pick: pick,
+      userId: userId 
     }),
   });
 
