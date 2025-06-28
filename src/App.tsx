@@ -1,11 +1,21 @@
 // import { useState } from "react";
 // import reactLogo from "./assets/react.svg";
 // import viteLogo from "/vite.svg";
+import { useEffect } from "react";
 import "./App.css";
 import RouterComponent from "./pages/Router";
 
 function App() {
   // const [count, setCount] = useState(0);
+
+  function setScreenSize() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`); //"--vh"라는 속성으로 정의해준다.
+  }
+
+  useEffect(() => {
+    setScreenSize();
+  });
 
   return (
     <RouterComponent />
