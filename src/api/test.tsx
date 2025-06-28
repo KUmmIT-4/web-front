@@ -1,4 +1,5 @@
-const serverUrl = "http://192.168.106.182:3003";
+// const serverUrl = "http://192.168.106.182:3003";
+const serverUrl = "http://15.164.88.35/health";
 
 export async function getJson() {
   const uri = serverUrl + "/api/attempts";

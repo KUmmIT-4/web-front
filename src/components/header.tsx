@@ -6,15 +6,15 @@ import backArrow from "@/assets/images/back-arrow.png";
 interface HeaderProps {
   noLogo?: boolean;
   title?: string;
-  gotoHome?: () => void;
+  gotoDes?: () => void;
 }
 
-const renderHeaderValue = ({ noLogo, title, gotoHome }: HeaderProps) => {
+const renderHeaderValue = ({ noLogo, title, gotoDes }: HeaderProps) => {
   if (noLogo) {
     return (
       <header className="h-12 flex px-5 w-full items-center justify-center relative">
         <div className="flex gap-7 absolute left-5">
-          <img className="w-2.5 h-4.5" src={backArrow} onClick={gotoHome} />
+          <img className="w-2.5 h-4.5" src={backArrow} onClick={gotoDes} />
         </div>
         <span className="text-black text-2xl font-bold">{title}</span>
       </header>
@@ -27,7 +27,7 @@ const renderHeaderValue = ({ noLogo, title, gotoHome }: HeaderProps) => {
         </span>
 
         <div>
-          <img className="size-5" src={user} />
+          <img className="size-5" src={user} onClick={gotoDes} />
         </div>
       </header>
     );
@@ -40,7 +40,12 @@ function Header({ noLogo = false, title = "title" }: HeaderProps) {
   const gotoHome = () => {
     navigate("/home");
   };
-  return <>{renderHeaderValue({ noLogo, title, gotoHome })}</>;
+  const gotoProfile = () => {
+    navigate("/profile");
+  };
+
+  const goto = noLogo ? gotoHome : gotoProfile;
+  return <>{renderHeaderValue({ noLogo, title, gotoDes: goto })}</>;
 }
 
 export default Header;

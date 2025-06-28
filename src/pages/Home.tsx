@@ -54,6 +54,7 @@ const Home = () => {
     status: string; // 가능한 status 값 명시
     problemTier: string;
     problemLevel: number;
+    language: string;
   }
   interface AttemptListResponse {
     attempts: Attempt[];
@@ -61,6 +62,13 @@ const Home = () => {
   }
 
   useEffect(() => {
+    fetchAPI<{ username: string; password: string }, undefined>(
+      "post",
+      "/users/login",
+      {
+        body: { username: "kkkkk", password: "aaaaa" },
+      }
+    ).then((res) => console.log(res));
     // 유저 정보 가져오기
     fetchAPI<undefined, UserResponseType>("get", "/users/me")
       .then((res) => {
@@ -123,7 +131,7 @@ const Home = () => {
         <div className="flex flex-col">
           <p className="text-start">{`백준 ${chal.problem_id}번 - ${chal.title}`}</p>
           <p className="text-start text-[#505866]">
-            {`난이도 : ${chal.problemTier} ${chal.problemLevel} 언어 : ${""}`}
+            {`난이도 : ${chal.problemTier} ${chal.problemLevel} 언어 : ${chal.language}`}
           </p>
         </div>
 
