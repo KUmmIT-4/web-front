@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, User } from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom';
 import Content from '@/components/problem/Content';
@@ -9,6 +9,7 @@ import ProblemDescription from '@/components/problem/ProblemDescription'; // 새
 
 const Problem = () => {
   const navigate = useNavigate();
+  const problemDescriptionRef = useRef<HTMLDivElement>(null);
 
   // 현재 서브 문제 인덱스 상태 관리
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -148,6 +149,13 @@ for (int i = 0; i < M; ++i) {
     }
   };
 
+  useEffect(() => {
+    // 페이지 
+    if (problemDescriptionRef.current) {
+      problemDescriptionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [currentQuestionIndex]);
+
   // 퀴즈 완료 처리
   const handleComplete = () => {
     const correctCount = userAnswers.filter((answer, index) => {
@@ -177,11 +185,13 @@ for (int i = 0; i < M; ++i) {
       </div>
 
       {/* 문제 전문 컴포넌트 사용 */}
-      <ProblemDescription
-        description={quizData.problemDescription}
-        isOpen={isProblemDescriptionOpen}
-        onToggle={() => setIsProblemDescriptionOpen(!isProblemDescriptionOpen)}
-      />
+      <div ref={problemDescriptionRef}>
+        <ProblemDescription
+          description={quizData.problemDescription}
+          isOpen={isProblemDescriptionOpen}
+          onToggle={() => setIsProblemDescriptionOpen(!isProblemDescriptionOpen)}
+        />
+      </div>
 
       {/* 현재 서브 문제 */}
       <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mt-6">
