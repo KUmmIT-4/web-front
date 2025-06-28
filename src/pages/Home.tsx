@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Header from "@/components/header";
 // import Button from "@/components/Button";
-import SelectItems from "@/components/constants/selectItems";
+import SelectItems from "@/components/constants/SelectItems";
 import pen from "@/assets/images/pen.png";
 import timer from "@/assets/images/timer.png";
 import trophy from "@/assets/images/trophy.png";
