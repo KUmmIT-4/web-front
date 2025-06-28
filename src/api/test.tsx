@@ -1,4 +1,5 @@
-const serverUrl = "http://192.168.106.182:3003";
+// const serverUrl = "http://192.168.106.182:3003";
+const serverUrl = "http://15.164.88.35/health";
 
 export async function getJson() {
   const uri = serverUrl + "/api/attempts";
@@ -30,7 +31,7 @@ export const fetchAPI = async <TBody = unknown, TResponse = unknown>(
   endpoint: string,
   options: RequestOptions<TBody> = {}
 ): Promise<TResponse> => {
-  let url = `${serverUrl}${endpoint}`;
+  let url = `${serverUrl}/api${endpoint}`;
 
   // GET params 처리
   if (options.params && method === "get") {

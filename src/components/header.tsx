@@ -1,17 +1,20 @@
+import { useNavigate } from "react-router-dom";
+
 import user from "@/assets/images/user.png";
 import backArrow from "@/assets/images/back-arrow.png";
 
 interface HeaderProps {
   noLogo?: boolean;
   title?: string;
+  gotoDes?: () => void;
 }
 
-const renderHeaderValue = (noLogo: boolean, title: string) => {
+const renderHeaderValue = ({ noLogo, title, gotoDes }: HeaderProps) => {
   if (noLogo) {
     return (
       <header className="h-12 flex px-5 w-full items-center justify-center relative">
         <div className="flex gap-7 absolute left-5">
-          <img className="w-2.5 h-4.5" src={backArrow} />
+          <img className="w-2.5 h-4.5" src={backArrow} onClick={gotoDes} />
         </div>
         <span className="text-black text-2xl font-bold">{title}</span>
       </header>
@@ -24,7 +27,7 @@ const renderHeaderValue = (noLogo: boolean, title: string) => {
         </span>
 
         <div>
-          <img className="size-5" src={user} />
+          <img className="size-5" src={user} onClick={gotoDes} />
         </div>
       </header>
     );
@@ -32,16 +35,17 @@ const renderHeaderValue = (noLogo: boolean, title: string) => {
 };
 
 function Header({ noLogo = false, title = "title" }: HeaderProps) {
-  return (
-    <>
-      {/* <span className="text-[var(--primary)] text-2xl font-bold">하루코딩</span>
+  const navigate = useNavigate();
 
-      <div className="flex gap-7">
-        <img className="size-5" src={user} />
-      </div> */}
-      {renderHeaderValue(noLogo, title)}
-    </>
-  );
+  const gotoHome = () => {
+    navigate("/home");
+  };
+  const gotoProfile = () => {
+    navigate("/profile");
+  };
+
+  const goto = noLogo ? gotoHome : gotoProfile;
+  return <>{renderHeaderValue({ noLogo, title, gotoDes: goto })}</>;
 }
 
 export default Header;
