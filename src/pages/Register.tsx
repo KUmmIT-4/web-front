@@ -31,7 +31,6 @@ const Register = () => {
 
   const onBlurId = async () => {
     if (id === "") return;
-
     try {
       const exists = await checkUsername(id);
       if (exists) {
@@ -65,9 +64,48 @@ const Register = () => {
     }
   };
 
+  const addInfo = async (): Promise<boolean> => {
+    try {
+      const newUser = await newUserInfo({
+        username: id,
+        password: pw,
+        tier: mapTier(selectedGrade),
+        level: Number(selectedLevel),
+        language: selectedLang.toUpperCase(),
+      });
+      console.log("회원가입 성공:", newUser);
+      return true;
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      return false;
+    }
+  };
+
+  //tier 함수
+  const mapTier = (korTier: string) => {
+    switch (korTier) {
+      case "브론즈":
+        return "bronze";
+      case "실버":
+        return "silver";
+      case "골드":
+        return "gold";
+      case "그 이상":
+        return "expert";
+      default:
+        return "";
+    }
+  };
+
   const [showConfirm, setShowConfirm] = useState(false);
-  function onChangeBtn() {
-    setShowConfirm(true);
+  async function onChangeBtn() {
+    const success = await addInfo();
+    if (success) {
+      setShowConfirm(true);
+    } else {
+      console.error("회원가입 실패: Confirm 모달 띄우지 않음");
+      // 실패 알림을 UI에 띄우고 싶다면 여기서 처리
+    }
   }
 
   useEffect(() => {
@@ -211,7 +249,7 @@ const Register = () => {
         label="다음"
         onClick={isValid ? onChangeBtn : undefined}
         // onClick={onChangeBtn}
-        //disabled={!isValid}
+        disabled={!isValid}
       />
     </div>
   );
