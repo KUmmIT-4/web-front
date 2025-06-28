@@ -1,14 +1,14 @@
-interface ProblemDescriptionProps {
+interface QuizDescriptionProps {
   description: string;
   isOpen: boolean;
   onToggle: () => void;
 }
 
-export default function ProblemDescription({ 
+export default function QuizDescription({ 
   description, 
   isOpen, 
   onToggle 
-}: ProblemDescriptionProps) {
+}: QuizDescriptionProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
       <button

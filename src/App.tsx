@@ -3,7 +3,7 @@
 // import viteLogo from "/vite.svg";
 import { useEffect } from "react";
 import "./App.css";
-import RouterComponent from "./pages/Router";
+import RouterComponent from "./Router/Router";
 
 function App() {
   // const [count, setCount] = useState(0);
