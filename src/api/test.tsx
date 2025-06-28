@@ -30,7 +30,7 @@ export const fetchAPI = async <TBody = unknown, TResponse = unknown>(
   endpoint: string,
   options: RequestOptions<TBody> = {}
 ): Promise<TResponse> => {
-  let url = `${serverUrl}${endpoint}`;
+  let url = `${serverUrl}/api${endpoint}`;
 
   // GET params 처리
   if (options.params && method === "get") {
