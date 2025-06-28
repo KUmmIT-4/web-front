@@ -13,14 +13,14 @@ interface QuizLayoutProps {
   isQuizDescriptionOpen: boolean;
   onToggleDescription: () => void;
   quizDescriptionRef: React.RefObject<HTMLDivElement>;
-  currentQuestionIndex: number;
-  totalQuestions: number;
+  // currentQuestionIndex: number;
+  // totalQuestions: number;
   question: string;
   answerOptions: any[];
   onAnswerSelect: (selectedIndex: number, isCorrect: boolean) => void;
   selectedAnswer: number | null;
-  onPrevious: () => void;
-  onNext: () => void;
+  // onPrevious: () => void;
+  // onNext: () => void;
   onComplete: () => void;
   hasAnswered: boolean;
   readonly?: boolean;
@@ -35,14 +35,14 @@ const QuizLayout: React.FC<QuizLayoutProps> = ({
   isQuizDescriptionOpen,
   onToggleDescription,
   quizDescriptionRef,
-  currentQuestionIndex,
-  totalQuestions,
+  // currentQuestionIndex,
+  // totalQuestions,
   question,
   answerOptions,
   onAnswerSelect,
   selectedAnswer,
-  onPrevious,
-  onNext,
+  // onPrevious,
+  // onNext,
   onComplete,
   hasAnswered,
   readonly = false,
@@ -78,9 +78,9 @@ const QuizLayout: React.FC<QuizLayoutProps> = ({
       {/* 현재 서브 문제 - 공통 */}
       <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mt-6">
         <div className="mb-4">
-          <div className="text-sm text-gray-600 mb-2">
+          {/* <div className="text-sm text-gray-600 mb-2">
             문제 {currentQuestionIndex + 1} / {totalQuestions}
-          </div>
+          </div> */}
           {/* 문제 텍스트와 코드 분리 렌더링 */}
           <div className="text-lg font-medium text-gray-800 space-y-4">
             {question.split('```').map((part, index) => {
@@ -108,16 +108,16 @@ const QuizLayout: React.FC<QuizLayoutProps> = ({
         <QuizOptions
           options={answerOptions}
           onAnswerSelect={onAnswerSelect}
-          questionIndex={currentQuestionIndex}
+          // questionIndex={currentQuestionIndex}
           selectedAnswer={selectedAnswer}
           readonly={readonly}
         />
         {/* 네비게이션 버튼 - 공통 */}
         <QuizNavigation
-          currentIndex={currentQuestionIndex}
-          totalQuestions={totalQuestions}
-          onPrevious={onPrevious}
-          onNext={onNext}
+          // currentIndex={currentQuestionIndex}
+          // totalQuestions={totalQuestions}
+          // onPrevious={onPrevious}
+          // onNext={onNext}
           onComplete={onComplete}
           hasAnswered={hasAnswered}
         />
