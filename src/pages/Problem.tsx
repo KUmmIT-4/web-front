@@ -184,21 +184,34 @@ void bfs(int start_x, int start_y, int M, int N,
         <div className="text-sm text-gray-600">난이도: <span className="font-semibold">{quizData.difficulty}</span></div>
       </div>
 
-      {/* 코드 섹션 */}
-      <CodeSection
-        code={sampleCode}
-        language="cpp"
-        title="BFS 구현 예시"
-      />
-
       {/* 현재 서브 문제 */}
       <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mt-6">
         <div className="mb-4">
           <div className="text-sm text-gray-600 mb-2">
             문제 {currentQuestionIndex + 1} / {quizData.questions.length}
           </div>
-          <div className="text-lg font-medium text-gray-800 whitespace-pre-line">
-            {currentQuestion.question}
+
+          {/* 문제 텍스트를 코드와 일반 텍스트로 분리하여 렌더링 */}
+          <div className="text-lg font-medium text-gray-800 space-y-4">
+            {currentQuestion.question.split('```').map((part, index) => {
+              if (index % 2 === 0) {
+                // 일반 텍스트 부분
+                return part.trim() ? (
+                  <div key={index} className="whitespace-pre-line">
+                    {part.trim()}
+                  </div>
+                ) : null;
+              } else {
+                // 코드 블록 부분 - CodeSection 컴포넌트 사용
+                return (
+                  <CodeSection
+                    key={index}
+                    code={`\`\`\`${part}\`\`\``} // 마크다운 형식으로 전달
+                    language="cpp"
+                  />
+                );
+              }
+            })}
           </div>
         </div>
 
