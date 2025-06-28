@@ -3,7 +3,8 @@ import Button from "@/components/Button";
 
 const Introduction = () => {
   return (
-    <div className="flex flex-col gap-64">
+    <div className="flex flex-col h-screen gap-64 bg-slate-50">
+      <title>Introduction</title>
       <div className="flex flex-col items-center pt-36">
         <h1 className="text-blue-500 text-5xl font-bold ">하루코딩</h1>
         <div className="text-gray-600 text-[17px] font-bold pt-6">
@@ -13,10 +14,18 @@ const Introduction = () => {
       </div>
       <div className="flex flex-col gap-4">
         <div>
-          <Button className="bg-blue-200" icon="" label="로그인" />
+          <Button
+            className="bg-blue-200 text-slate-950"
+            icon=""
+            label="로그인"
+          />
         </div>
         <div>
-          <Button className="bg-blue-200" icon="" label="회원가입" />
+          <Button
+            className="bg-blue-200 text-slate-950"
+            icon=""
+            label="회원가입"
+          />
         </div>
       </div>
     </div>
