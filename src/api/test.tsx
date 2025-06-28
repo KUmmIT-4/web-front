@@ -1,8 +1,8 @@
 // const serverUrl = "http://192.168.106.182:3003";
-const serverUrl = "http://15.164.88.35/health";
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 export async function getJson() {
-  const uri = serverUrl + "/api/attempts";
+  const uri = API_URL + "/api/attempts";
   const data = await fetch(uri, {
     // fetch 요청에 옵션 추가
     method: "POST", // HTTP 메소드를 POST로 변경
@@ -31,7 +31,7 @@ export const fetchAPI = async <TBody = unknown, TResponse = unknown>(
   endpoint: string,
   options: RequestOptions<TBody> = {}
 ): Promise<TResponse> => {
-  let url = `${serverUrl}/api${endpoint}`;
+  let url = `${API_URL}/api${endpoint}`;
 
   // GET params 처리
   if (options.params && method === "get") {
