@@ -1,23 +1,45 @@
-import React, { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, User } from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom';
 import Content from '@/components/problem/Content';
 import CodeSection from '@/components/problem/CodeSection';
 import QuizOptions from '@/components/problem/QuizOptions'; // 새로운 컴포넌트 import
 import QuizNavigation from '@/components/problem/QuizNavigation'; // 새로운 컴포넌트 import
+import ProblemDescription from '@/components/problem/ProblemDescription'; // 새로운 컴포넌트 import
 
 const Problem = () => {
   const navigate = useNavigate();
+  const problemDescriptionRef = useRef<HTMLDivElement>(null);
 
   // 현재 서브 문제 인덱스 상태 관리
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   // 사용자 답변 상태 관리 (각 문제별 선택된 답변의 인덱스)
   const [userAnswers, setUserAnswers] = useState<(number | null)[]>([null, null, null, null]);
+  // 문제 전문 toggle 상태 관리
+  const [isProblemDescriptionOpen, setIsProblemDescriptionOpen] = useState(true);
 
   // 목업 퀴즈 데이터 (실제로는 서버에서 받아올 예정)
   const quizData = {
     title: "백준 1012번: 유기농 배추 C++ BFS 핵심 로직 퀴즈",
     difficulty: "실버 2",
+    // 문제 전문 추가
+    problemDescription: `농부 차뚜는 해외의 친구에게 유기농 배추를 수출하려고 한다. 세상에는 해충이 많아서 배추가 자라는 중에 해충이 침범하여 배추를 해칠 수 있다. 차뚜는 화학 살충제를 쓰고 싶지 않아서 지렁이를 구입하기로 했다.
+
+지렁이는 배추근처에 서식하며 해충을 잡아먹음으로써 배추를 보호한다. 특히, 지렁이는 배추를 중심으로 상하좌우 네 방향으로 인접한 곳에 서식한다.
+
+배추들이 모여있는 곳에는 배추흰지렁이가 한 마리만 있으면 되므로 서로 인접해있는 배추들이 몇 군데에 퍼져있는지 조사하면 총 몇 마리의 지렁이가 필요한지 알 수 있다.
+
+예를 들어, 아래 그림에서 배추들이 5×3 크기의 밭에 심어져 있다. X표시는 배추가 심어진 곳이고, 빈칸은 배추가 심어지지 않은 곳이다.
+
+X X X X X
+X X   X X
+X X X   X
+
+이 경우에 상하좌우로 인접해있는 배추들이 총 2군데에 퍼져있으므로, 지렁이가 2마리 필요하다.
+
+첫 줄에는 테스트 케이스의 개수 T가 주어진다. 그 다음 줄부터 각각의 테스트 케이스에 대해 첫째 줄에는 배추를 심은 배추밭의 가로길이 M(1 ≤ M ≤ 50)과 세로길이 N(1 ≤ N ≤ 50), 그리고 배추가 심어져 있는 위치의 개수 K(1 ≤ K ≤ 2500)이 주어진다. 그 다음 K줄에는 배추의 위치 X, Y가 주어진다. (0 ≤ X ≤ M-1, 0 ≤ Y ≤ N-1)
+
+각 테스트 케이스에 대해 필요한 최소의 배추흰지렁이 마리 수를 출력한다.`,
     questions: [
       {
         question: `백준 1012번 유기농 배추 문제를 C++ BFS로 풀이할 때, 인접한 칸을 탐색하기 위해 사용하는 자료구조는 무엇이며, 첫 시작점을 어떻게 추가하는가? 빈칸에 들어갈 알맞은 코드를 선택하세요.
@@ -113,6 +135,8 @@ for (int i = 0; i < M; ++i) {
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
+      // 첫 번째 문제가 아니면 문제 설명을 접음
+      setIsProblemDescriptionOpen(currentQuestionIndex - 1 === 0);
     }
   };
 
@@ -120,8 +144,17 @@ for (int i = 0; i < M; ++i) {
   const handleNext = () => {
     if (currentQuestionIndex < quizData.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      // 첫 번째 문제가 아니면 문제 설명을 접음
+      setIsProblemDescriptionOpen(currentQuestionIndex + 1 === 0);
     }
   };
+
+  useEffect(() => {
+    // 페이지 
+    if (problemDescriptionRef.current) {
+      problemDescriptionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [currentQuestionIndex]);
 
   // 퀴즈 완료 처리
   const handleComplete = () => {
@@ -132,39 +165,6 @@ for (int i = 0; i < M; ++i) {
 
     alert(`퀴즈가 완료되었습니다!\n총 ${quizData.questions.length}문제 중 ${correctCount}개 맞추셨습니다.`);
   };
-
-  // 예시 코드 데이터
-  const sampleCode = `#include <iostream>
-#include <vector>
-#include <queue>
-
-int dx[] = {0, 0, 1, -1};
-int dy[] = {1, -1, 0, 0};
-
-void bfs(int start_x, int start_y, int M, int N,
-         std::vector<std::vector<int>>& field,
-         std::vector<std::vector<bool>>& visited) {
-    std::queue<std::pair<int, int>> q;
-    q.push({start_x, start_y});
-    visited[start_x][start_y] = true;
-
-    while (!q.empty()) {
-        int curr_x = q.front().first;
-        int curr_y = q.front().second;
-        q.pop();
-
-        for (int i = 0; i < 4; ++i) {
-            int next_x = curr_x + dx[i];
-            int next_y = curr_y + dy[i];
-
-            if (next_x >= 0 && next_x < M && next_y >= 0 && next_y < N &&
-                field[next_x][next_y] == 1 && !visited[next_x][next_y]) {
-                q.push({next_x, next_y});
-                visited[next_x][next_y] = true;
-            }
-        }
-    }
-}`;
 
   return (
     <>
@@ -184,12 +184,14 @@ void bfs(int start_x, int start_y, int M, int N,
         <div className="text-sm text-gray-600">난이도: <span className="font-semibold">{quizData.difficulty}</span></div>
       </div>
 
-      {/* 코드 섹션 */}
-      <CodeSection
-        code={sampleCode}
-        language="cpp"
-        title="BFS 구현 예시"
-      />
+      {/* 문제 전문 컴포넌트 사용 */}
+      <div ref={problemDescriptionRef}>
+        <ProblemDescription
+          description={quizData.problemDescription}
+          isOpen={isProblemDescriptionOpen}
+          onToggle={() => setIsProblemDescriptionOpen(!isProblemDescriptionOpen)}
+        />
+      </div>
 
       {/* 현재 서브 문제 */}
       <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mt-6">
@@ -197,8 +199,28 @@ void bfs(int start_x, int start_y, int M, int N,
           <div className="text-sm text-gray-600 mb-2">
             문제 {currentQuestionIndex + 1} / {quizData.questions.length}
           </div>
-          <div className="text-lg font-medium text-gray-800 whitespace-pre-line">
-            {currentQuestion.question}
+
+          {/* 문제 텍스트를 코드와 일반 텍스트로 분리하여 렌더링 */}
+          <div className="text-lg font-medium text-gray-800 space-y-4">
+            {currentQuestion.question.split('```').map((part, index) => {
+              if (index % 2 === 0) {
+                // 일반 텍스트 부분
+                return part.trim() ? (
+                  <div key={index} className="whitespace-pre-line">
+                    {part.trim()}
+                  </div>
+                ) : null;
+              } else {
+                // 코드 블록 부분 - CodeSection 컴포넌트 사용
+                return (
+                  <CodeSection
+                    key={index}
+                    code={`\`\`\`${part}\`\`\``} // 마크다운 형식으로 전달
+                    language="cpp"
+                  />
+                );
+              }
+            })}
           </div>
         </div>
 

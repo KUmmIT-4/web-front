@@ -18,12 +18,31 @@ interface CodeSectionProps {
   title?: string; // 코드 블록 제목 (선택사항)
 }
 
+// 코드 블록을 마크다운 형식에서 추출하는 함수 추가
+function extractCodeFromMarkdown(text: string): { code: string; language: string } {
+  const codeBlockRegex = /```(\w+)?\n?([\s\S]*?)```/;
+  const match = text.match(codeBlockRegex);
+
+  if (match) {
+    return {
+      code: match[2].trim(),
+      language: match[1] || 'cpp'
+    };
+  }
+
+  return { code: text, language: 'cpp' };
+}
+
 export default function CodeSection({ 
   code, 
-  language = 'javascript', 
+  language, 
   title 
 }: CodeSectionProps) {
   const codeRef = useRef<HTMLElement>(null);
+
+  // 마크다운 형식의 코드 블록이 포함된 경우 추출
+  const { code: extractedCode, language: detectedLanguage } = extractCodeFromMarkdown(code);
+  const finalLanguage = !language ? detectedLanguage : language; // props로 받은 language가 기본값일 때만 감지된 언어 사용
 
   useEffect(() => {
     // 컴포넌트가 마운트되거나 코드가 변경될 때 Prism으로 하이라이팅 수행
@@ -32,7 +51,7 @@ export default function CodeSection({
       codeRef.current.parentElement?.classList.add('line-numbers');
       Prism.highlightElement(codeRef.current);
     }
-  }, [code, language]);
+  }, [extractedCode, finalLanguage]); // extractedCode와 finalLanguage 사용
 
   return (
     <div className="w-full bg-gray-900 rounded-lg overflow-hidden shadow-lg">
@@ -45,18 +64,18 @@ export default function CodeSection({
       
       {/* 코드 블록 본문 */}
       <div className="relative">
-        <pre className="overflow-x-auto p-0 m-0 line-numbers text-left"> {/* padding 제거, text-left 추가 */}
+        <pre className="overflow-x-auto p-0 m-0 line-numbers text-left">
           <code 
             ref={codeRef}
-            className={`language-${language} block`} /* block과 padding을 code에 적용 */
+            className={`language-${finalLanguage} block`} // finalLanguage 사용
           >
-            {code}
+            {extractedCode} {/* extractedCode 사용 */}
           </code>
         </pre>
         
         {/* 언어 표시 라벨 */}
         <div className="absolute top-2 right-2 bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">
-          {language.toUpperCase()}
+          {finalLanguage.toUpperCase()} {/* finalLanguage 사용 */}
         </div>
       </div>
     </div>
