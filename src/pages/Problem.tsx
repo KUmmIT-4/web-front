@@ -20,6 +20,7 @@ export default function Problem() {
 
   // 목업 퀴즈 데이터 (실제로는 서버에서 받아올 예정)
   const quizData = {
+    probNum: 1012,
     title: "백준 1012번: 유기농 배추 C++ BFS 핵심 로직 퀴즈",
     difficulty: "실버 2",
     // 문제 전문 추가
