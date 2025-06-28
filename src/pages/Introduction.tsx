@@ -1,7 +1,9 @@
 // import React from "React";
 import Button from "@/components/Button";
+import { useNavigate } from "react-router-dom";
 
 const Introduction = () => {
+  let navigate = useNavigate();
   return (
     <div className="flex flex-col h-screen gap-64 bg-slate-50">
       <title>Introduction</title>
@@ -18,6 +20,9 @@ const Introduction = () => {
             className="bg-blue-200 text-slate-950"
             icon=""
             label="로그인"
+            onClick={() => {
+              navigate("/log");
+            }}
           />
         </div>
         <div>
@@ -25,6 +30,9 @@ const Introduction = () => {
             className="bg-blue-200 text-slate-950"
             icon=""
             label="회원가입"
+            onClick={() => {
+              navigate("/register");
+            }}
           />
         </div>
       </div>
