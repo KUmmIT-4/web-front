@@ -5,6 +5,7 @@ import Content from '@/components/problem/Content';
 import CodeSection from '@/components/problem/CodeSection';
 import QuizOptions from '@/components/problem/QuizOptions'; // 새로운 컴포넌트 import
 import QuizNavigation from '@/components/problem/QuizNavigation'; // 새로운 컴포넌트 import
+import ProblemDescription from '@/components/problem/ProblemDescription'; // 새로운 컴포넌트 import
 
 const Problem = () => {
   const navigate = useNavigate();
@@ -175,25 +176,12 @@ for (int i = 0; i < M; ++i) {
         <div className="text-sm text-gray-600">난이도: <span className="font-semibold">{quizData.difficulty}</span></div>
       </div>
 
-      {/* 문제 전문 (toggle 가능) */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-        <button
-          onClick={() => setIsProblemDescriptionOpen(!isProblemDescriptionOpen)}
-          className="w-full px-6 py-4 text-left hover:bg-gray-50 transition-colors duration-200"
-        >
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-800">문제 설명</h2>
-            <span className="text-gray-500">
-              {isProblemDescriptionOpen ? '접기' : '펼치기'}
-            </span>
-          </div>
-        </button>
-        {isProblemDescriptionOpen && (
-          <div className="px-6 pb-6 text-gray-700 leading-relaxed whitespace-pre-line">
-            {quizData.problemDescription}
-          </div>
-        )}
-      </div>
+      {/* 문제 전문 컴포넌트 사용 */}
+      <ProblemDescription
+        description={quizData.problemDescription}
+        isOpen={isProblemDescriptionOpen}
+        onToggle={() => setIsProblemDescriptionOpen(!isProblemDescriptionOpen)}
+      />
 
       {/* 현재 서브 문제 */}
       <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mt-6">
