@@ -3,18 +3,33 @@ import { useNavigate } from "react-router-dom";
 
 import Header from "@/components/header";
 // import Button from "@/components/Button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import SelectItems from "@/components/constants/selectItems";
 import pen from "@/assets/images/pen.png";
 import timer from "@/assets/images/timer.png";
 import trophy from "@/assets/images/trophy.png";
 import codeIcon from "@/assets/images/codeIcon.png";
 import nextArrow from "@/assets/images/next-arrow.png";
+
+const tierOptions = [
+  { label: "브론즈", value: "bronze" },
+  { label: "실버", value: "silver" },
+  { label: "골드", value: "gold" },
+  { label: "그 이상", value: "beyond" },
+];
+const labelOptions = [
+  { label: "1", value: "1" },
+  { label: "2", value: "2" },
+  { label: "3", value: "3" },
+  { label: "4", value: "4" },
+  { label: "5", value: "5" },
+];
+const languageOptions = [
+  { label: "C", value: "c" },
+  { label: "C++", value: "cpp" },
+  { label: "Python", value: "py" },
+  { label: "Java", value: "jv" },
+  { label: "JavaScript", value: "js" },
+];
 
 const Home = () => {
   const navigate = useNavigate();
@@ -34,43 +49,11 @@ const Home = () => {
             연속도전 3일차
           </p>
           <div className="flex gap-7 mb-3">
-            <Select>
-              <SelectTrigger className="flex-1 !h-13 !bg-white !border-[var(--border-line)]">
-                <SelectValue placeholder="등급" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="bronze">브론즈</SelectItem>
-                <SelectItem value="silver">실버</SelectItem>
-                <SelectItem value="gold">골드</SelectItem>
-                <SelectItem value="beyond">그 이상</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="flex-1 !h-13 !bg-white !border-[var(--border-line)]">
-                <SelectValue placeholder="라벨" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
-                <SelectItem value="4">4</SelectItem>
-                <SelectItem value="5">5</SelectItem>
-              </SelectContent>
-            </Select>
+            <SelectItems placeholder="등급" options={tierOptions} />
+            <SelectItems placeholder="라벨" options={labelOptions} />
           </div>
-          <div className="mb-3.5">
-            <Select>
-              <SelectTrigger className="w-full !h-13 !bg-white !border-[var(--border-line)]">
-                <SelectValue placeholder="언어" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="c">C</SelectItem>
-                <SelectItem value="cdp">C++</SelectItem>
-                <SelectItem value="py">Python</SelectItem>
-                <SelectItem value="jv">Java</SelectItem>
-                <SelectItem value="js">JavaScript</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="mb-3.5 flex">
+            <SelectItems placeholder="언어" options={languageOptions} />
           </div>
           <div className="flex flex-col gap-3.5 mb-7">
             {/* <Button
