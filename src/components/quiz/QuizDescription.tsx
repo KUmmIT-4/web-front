@@ -1,3 +1,5 @@
+import { ChevronUp, ChevronDown } from 'lucide-react'; // 아이콘 import 추가
+
 interface QuizDescriptionProps {
   description: string;
   isOpen: boolean;
@@ -18,7 +20,7 @@ export default function QuizDescription({
         <div className="flex justify-between items-center h-[34px]">
           <h2 className="text-lg font-semibold text-gray-800">문제 설명</h2>
           <span className="text-gray-500">
-            {isOpen ? '접기' : '펼치기'}
+            {isOpen ? <ChevronUp /> : <ChevronDown />} {/* 아이콘으로 변경 */}
           </span>
         </div>
       </button>
