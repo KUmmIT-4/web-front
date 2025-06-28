@@ -6,7 +6,7 @@ interface User {
   language?: string;
 }
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 const userInfo = async ({ username, password }: User): Promise<User> => {
   const response = await fetch(`${API_URL}/api/users/login`, {

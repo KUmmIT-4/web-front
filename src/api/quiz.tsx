@@ -1,6 +1,6 @@
 import type { Problem, QuizParams } from "@/types/quiz/quiz"; // Problem 타입 import
 
-const API_URL = import.meta.env.VITE_API_URL; // 환경 변수에서 API URL 가져오기
+const API_URL = import.meta.env.VITE_API_URL || ""; // 환경 변수에서 API URL 가져오기
 
 /**
  * 특정 문제 데이터 가져옴

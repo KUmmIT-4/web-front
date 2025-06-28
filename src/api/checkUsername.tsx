@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 const checkUsername = async (username: string): Promise<boolean> => {
   const response = await fetch(`${API_URL}/api/users/check-username`, {
