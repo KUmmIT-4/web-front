@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserInfo } from "@/api/login.tsx";
 
 const Login = () => {
   const [isValid, setIsValid] = useState<boolean>(false);
@@ -26,9 +27,18 @@ const Login = () => {
   }, [pw, id, isValid]);
 
   const navigate = useNavigate();
-  const handleLog = () => {
+  const handleLog = async () => {
+    if (!isValid) return; //유효하지 않으면 return
+
+    try {
+      const user = await UserInfo(id, pw); //id, pw 보내서 로그인 시도
+      if (user) {
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("불러오기 실패");
+    }
     //todo: isvalid 유효성 검사
-    navigate("/home");
   };
 
   return (
