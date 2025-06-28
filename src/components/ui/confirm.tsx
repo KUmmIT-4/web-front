@@ -14,12 +14,12 @@ const confirm = ({ onClose }: ConfirmProps) => {
   return (
     <div
       className="fixed inset-0 flex items-center
-     justify-center bg-black/50
+     justify-center bg-black/50 z-50
      "
     >
       <div
         className="w-72 h-56 flex flex-col items-center justify-center 
-      gap-8 bg-slate-50 pt-24 pb-16 pl-6 pr-6 rounded-[4vw]"
+      gap-8 bg-slate-50 pt-24 pb-16 pl-6 pr-6 rounded-[2vw]"
       >
         <div className="flex flex-col w-full items-center justify-center gap-2">
           <div className="font-bold">회원가입 완료!</div>

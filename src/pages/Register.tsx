@@ -2,6 +2,7 @@
 import Button from "@/components/Button";
 import { useState, useEffect, type ChangeEvent } from "react";
 import Confirm from "@/components/ui/confirm";
+import Input from "@/components/Input";
 
 const Register = () => {
   const [selectedGrade, setSeletedGrade] = useState("");
@@ -27,6 +28,7 @@ const Register = () => {
     } else if (currentPw.length > 10) {
       setPwMessage("10글자 이내만 가능합니다");
       setIsPassword(false);
+      return; //todo: 10글자 막기
     } else {
       setPwMessage("사용가능한 비밀번호입니다");
       setIsPassword(true);
@@ -49,7 +51,7 @@ const Register = () => {
   }, [pw, selectedGrade, selectedLevel, selectedLang, isPassword]);
 
   return (
-    <div>
+    <div className="w-full">
       <div>
         {showConfirm && (
           <Confirm
@@ -75,23 +77,26 @@ const Register = () => {
             />
             {/* 아이디 유효성 검사 추가 필요*/}
           </form>
-          <form>
-            <div className="flex items-center pb-2 pl-16 gap-2">
-              <span>비밀번호</span>
-              <span
-                className={`${
-                  pw === ""
-                    ? "text-red-500"
-                    : isPassword
-                    ? "text-blue-500"
-                    : "text-red-500"
-                }`}
-              >
-                {pwMessage}
-              </span>
+          <form className="flex flex-col w-full items-center">
+            <div className="flex items-center gap-2 pb-2">
+              <div className="w-96 pl-2 text-left">
+                <span>비밀번호 </span>
+                <span
+                  className={`${
+                    pw === ""
+                      ? "text-white"
+                      : isPassword
+                      ? "text-blue-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {pwMessage}
+                </span>
+              </div>
             </div>
-            <input
-              className={`w-96 h-14 pl-4 rounded-lg 
+            <div>
+              <Input
+                className={`w-96 h-14 pl-4 rounded-lg 
               border border-solid
         text-slate-500 focus:outline-none
   ${
@@ -101,17 +106,16 @@ const Register = () => {
       ? "border-blue-500"
       : "border-red-500"
   }`}
-              type="text"
-              placeholder="비밀번호를 입력해주세요."
-              value={pw}
-              onChange={onChangePw}
-            />
+                onChange={onChangePw}
+              />
+            </div>
           </form>
+
           <div>
             <div className="pb-2 pr-80">코딩 실력</div>
             <div className="flex justify-center flex gap-13 px-5">
               <select
-                className="w-42 h-14 border-1 border-solid border-slate-300 rounded-[4vw] cursor-pointer"
+                className="w-42 h-14 border-1 border-solid border-slate-300 rounded-[1vw] cursor-pointer"
                 style={{ fontSize: "1.125rem", padding: "0.75rem" }}
                 value={selectedGrade}
                 onChange={(e) => setSeletedGrade(e.target.value)}
@@ -126,7 +130,7 @@ const Register = () => {
                 ))}
               </select>
               <select
-                className="w-42 h-14 border-1 border-solid border-slate-300 rounded-[4vw] cursor-pointer"
+                className="w-42 h-14 border-1 border-solid border-slate-300 rounded-[1vw] cursor-pointer"
                 style={{ fontSize: "1.125rem", padding: "0.75rem" }}
                 value={selectedLevel}
                 onChange={(e) => setSeletedLevel(e.target.value)}
@@ -145,7 +149,7 @@ const Register = () => {
           <div>
             <div className="pb-2 pr-80">코딩언어</div>
             <select
-              className="w-96 h-14 border-1 border-solid border-slate-300 rounded-[4vw] cursor-pointer"
+              className="w-96 h-14 border-1 border-solid border-slate-300 rounded-[1vw] cursor-pointer"
               style={{
                 fontSize: "1.125rem",
                 padding: "0.75rem",
@@ -171,7 +175,6 @@ const Register = () => {
             ? "bg-blue-500 cursor-pointer"
             : "bg-slate-300 !cursor-default"
         } text-white mt-20 focus:outline-none`}
-        icon=""
         label="다음"
         onClick={isValid ? onChangeBtn : undefined}
         // onClick={onChangeBtn}
