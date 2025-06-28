@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL; // 환경 변수에서 API URL 가
  * @returns {Promise<Problem>} - 문제 데이터
  */
 export const getReviewData = async (attemptId: number): Promise<Review> => {
-  const response = await fetch(`${API_URL}/api/attempts/${attemptId}`, {
+  const response = await fetch(`${API_URL}/api/attempts/me/${attemptId}`, {
     method: "GET", // HTTP 메소드를 GET으로 변경
     headers: {
       // HTTP 헤더 설정
