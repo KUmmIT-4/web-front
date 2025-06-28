@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export default async function handler(req, res) {
   const { path } = req.query;
   const apiPath = Array.isArray(path) ? path.join('/') : path;
@@ -26,38 +24,38 @@ export default async function handler(req, res) {
       body: req.body
     });
 
-    const config = {
-      method: req.method.toLowerCase(),
-      url: backendUrl,
+    const fetchOptions = {
+      method: req.method,
       headers: {
         'Content-Type': 'application/json',
-      },
-      timeout: 10000,
+      }
     };
 
     // POST, PUT, PATCH 요청에 body 추가
-    if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
-      config.data = req.body;
+    if (['POST', 'PUT', 'PATCH'].includes(req.method) && req.body) {
+      fetchOptions.body = JSON.stringify(req.body);
     }
 
-    const response = await axios(config);
+    const response = await fetch(backendUrl, fetchOptions);
+    const data = await response.text();
     
     console.log('Backend response:', {
       status: response.status,
-      data: response.data
+      data: data
     });
 
-    res.status(response.status).json(response.data);
+    res.status(response.status);
+    
+    // JSON 응답인지 확인
+    try {
+      const jsonData = JSON.parse(data);
+      res.json(jsonData);
+    } catch {
+      res.send(data);
+    }
     
   } catch (error) {
     console.error('Proxy error:', error.message);
-    
-    if (error.response) {
-      // 백엔드에서 오는 에러 응답
-      res.status(error.response.status).json(error.response.data);
-    } else {
-      // 네트워크 에러 등
-      res.status(500).json({ error: 'Internal Server Error', message: error.message });
-    }
+    res.status(500).json({ error: 'Internal Server Error', message: error.message });
   }
 } 
