@@ -15,6 +15,7 @@ export const getReviewData = async (attemptId: number): Promise<Review> => {
       session_id: "12345", // session_id를 헤더에 추가 (임의의 session_id)
       "Content-Type": "application/json", // Content-Type 설정 (JSON 형태)
     },
+    credentials: "include", //쿠키 포함 설정
     body: JSON.stringify({ attempt_id: attemptId }), // body에 JSON 객체 추가
   });
   if (!response.ok) {
