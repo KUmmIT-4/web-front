@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // useParams 추가
+import { useNavigate, useLocation } from "react-router-dom";
 import QuizLayout from "@/components/QuizLayout";
 import { useQuery } from "@tanstack/react-query";
 import { getQuizData } from "@/api/quiz";
 import type { Problem, QuizParams } from "@/types/quiz/quiz";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function Quiz() {
   const location = useLocation();
@@ -38,12 +40,59 @@ export default function Quiz() {
   }, []);
 
   if (quizQuery.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="animate-pulse"> {/* 로딩 중 shimmer 효과를 위한 감싸는 div */}
+        <div className="flex justify-between">
+          <Skeleton width={48} height={48} /> {/* 뒤로가기 버튼 대체 */}
+        </div>
+        <div className="bg-white border-b border-gray-200 mb-[3px] flex flex-col items-start px-[10px] pb-3">
+          <Skeleton width="80%" height={32} className="mb-[9px]" /> {/* 문제 제목 대체 */}
+          <div className='flex items-center gap-[9px]'>
+            <Skeleton width={80} height={20} /> {/* 언어 대체 */}
+            <Skeleton width={120} height={20} /> {/* 난이도 대체 */}
+          </div>
+        </div>
+        <div className='px-[7px]'>
+          <div>
+            <Skeleton height={48} /> {/* 문제 설명 버튼 대체 */}
+          </div>
+          <div className="bg-white rounded-lg mt-[9px]">
+            <div className="mb-4">
+              <Skeleton height={32} className="px-[14px]" /> {/* "문제" 제목 대체 */}
+              <Skeleton count={3} height={24} className="px-[14px]" /> {/* 문제 텍스트 대체 */}
+              <Skeleton height={200} /> {/* 코드 섹션 대체 */}
+            </div>
+            <div>
+              {Array(4).fill(null).map((_, index) => (
+                <div key={index} className="p-4 border-b border-gray-200 last:border-b-0">
+                  <Skeleton height={40} /> {/* 선택지 대체 */}
+                </div>
+              ))}
+            </div>
+            <div className='flex justify-end p-4'>
+              <Skeleton width={100} height={36} /> {/* 완료 버튼 대체 */}
+            </div>
+            <div className='pb-12'></div>
+          </div>
+        </div>
+      </div>
+    );
   }
-  console.log("Quiz data:", quizQuery.data);
-  console.log("Quiz error:", quizQuery.error);
+
   if (quizQuery.isError) {
-    return <div>Error: {quizQuery.error.message}</div>;
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <div className="text-red-500 text-xl font-bold mb-4">
+          Error: {quizQuery.error.message}
+        </div>
+        <button
+          onClick={() => quizQuery.refetch()}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
 
   if (!quizQuery.data) {
