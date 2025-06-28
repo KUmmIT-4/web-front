@@ -12,10 +12,10 @@ import { fetchAPI } from "@/api/test";
 import Button from "@/components/Button";
 
 const TIEROPTIONS = [
-  { label: "브론즈", value: "bronze" },
-  { label: "실버", value: "silver" },
-  { label: "골드", value: "gold" },
-  { label: "그 이상", value: "beyond" },
+  { label: "브론즈", value: "브론즈" },
+  { label: "실버", value: "실버" },
+  { label: "골드", value: "골드" },
+  { label: "그 이상", value: "그 이상" },
 ];
 const LABELOPTIONS = [
   { label: "1", value: "1" },
@@ -25,11 +25,11 @@ const LABELOPTIONS = [
   { label: "5", value: "5" },
 ];
 const LANGUAGEOPTIONS = [
-  { label: "C", value: "c" },
-  { label: "C++", value: "cpp" },
-  { label: "Python", value: "py" },
-  { label: "Java", value: "jv" },
-  { label: "JavaScript", value: "js" },
+  { label: "C", value: "C" },
+  { label: "C++", value: "C++" },
+  { label: "Python", value: "Python" },
+  { label: "Java", value: "Java" },
+  { label: "JavaScript", value: "JavaScript" },
 ];
 
 const Home = () => {
@@ -37,18 +37,26 @@ const Home = () => {
 
   const [conti, setConti] = useState(false); // 풀고 있는 문제 유무
   const [fireDays, setFireDays] = useState(0); // 연속 성공 날짜
-  const [todayChallenge, setTodayChallenge] = useState<Challenge[]>([]);
+  const [todayChallenge, setTodayChallenge] = useState<Attempt[]>([]);
+  const [page, setPage] = useState(0);
+  const [tier, setTier] = useState("");
+  const [level, setLevel] = useState(1);
+  const [language, setLanguage] = useState("c");
 
   interface UserResponseType {
     streak_days: number;
   }
-  interface Challenge {
+  interface Attempt {
     attempt_id: number;
     problem_id: number;
     title: string;
-    status: string;
-    problem_tier: string;
-    level: number;
+    status: string; // 가능한 status 값 명시
+    problemTier: string;
+    problemLevel: number;
+  }
+  interface AttemptListResponse {
+    attempts: Attempt[];
+    hasNext: boolean;
   }
 
   useEffect(() => {
@@ -61,23 +69,37 @@ const Home = () => {
       .catch((e) => {
         console.error(e);
       });
+  }, []);
 
+  useEffect(() => {
     // 오늘의 도전기록 가져오기
     const today = new Date().toISOString().slice(0, 19);
     console.log(today);
-    fetchAPI<undefined, Challenge[]>("get", "/attempts/me", {
+    fetchAPI<undefined, AttemptListResponse>("get", "/attempts/me", {
       params: { date: today },
     })
       .then((res) => {
-        setTodayChallenge((prev) => [...prev, ...res]);
+        if (res.hasNext) {
+          setPage((prev) => prev + 1);
+        }
+        setTodayChallenge((prev) => [...prev, ...res.attempts]);
       })
       .catch((e) => {
         console.error(e);
       });
-  }, []);
+  }, [page]);
 
   const gotoRank = () => {
     navigate("/rank");
+  };
+  const gotoQuiz = () => {
+    navigate("/quiz", {
+      state: {
+        tier,
+        level,
+        language,
+      },
+    });
   };
 
   const renderChallengeList = () => {};
@@ -91,17 +113,36 @@ const Home = () => {
             {`연속도전 ${fireDays}일차`}
           </p>
           <div className="flex gap-7 mb-3">
-            <SelectItems placeholder="등급" options={TIEROPTIONS} />
-            <SelectItems placeholder="라벨" options={LABELOPTIONS} />
+            <SelectItems
+              placeholder="등급"
+              options={TIEROPTIONS}
+              onValueChange={(val) => {
+                setTier(val);
+              }}
+            />
+            <SelectItems
+              placeholder="라벨"
+              options={LABELOPTIONS}
+              onValueChange={(val) => {
+                setLevel(Number(val));
+              }}
+            />
           </div>
           <div className="mb-3.5 flex">
-            <SelectItems placeholder="언어" options={LANGUAGEOPTIONS} />
+            <SelectItems
+              placeholder="언어"
+              options={LANGUAGEOPTIONS}
+              onValueChange={(val) => {
+                setLanguage(val);
+              }}
+            />
           </div>
           <div className="flex flex-col gap-3.5 mb-7">
             <Button
               icon={<img src={pen} className="size-4.5" />}
               label="코딩 문제풀기"
               className="bg-[var(--primary)] w-full flex h-14 justify-center items-center gap-2 rounded-2xl text-base text-white"
+              onClick={gotoQuiz}
             />
             <Button
               icon={<img src={timer} className="size-4.5" />}

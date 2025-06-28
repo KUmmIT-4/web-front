@@ -35,3 +35,10 @@ export interface Problem {
   answer_choice: number;
   rationale: string[];
 }
+
+// quiz 컴포넌트로 넘겨주는 parameter
+export interface QuizParams {
+  tier: string;
+  level: number;
+  language: string;
+}
