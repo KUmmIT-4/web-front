@@ -76,11 +76,12 @@ export default function Quiz() {
 
   // 퀴즈 완료 처리
   const handleComplete = () => {
-    const correctCount = userAnswer !== null && userAnswer === currentQuestion.answer_choice ? 1 : 0;
+    // const correctCount = userAnswer !== null && userAnswer === currentQuestion.answer_choice ? 1 : 0;
 
-    alert(
-      `퀴즈가 완료되었습니다!\n총 1문제 중 ${correctCount}개 맞추셨습니다.`
-    );
+    // alert(
+    //   `퀴즈가 완료되었습니다!\n총 1문제 중 ${correctCount}개 맞추셨습니다.`
+    // );
+    navigate('/home');
   };
 
   return (
