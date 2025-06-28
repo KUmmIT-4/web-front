@@ -37,7 +37,7 @@ export default function ReviewDetailLayout({
   onBack
 }: ReviewDetailLayoutProps) {
   // master, data 객체에서 problem_title을 title이라는 이름으로 추출하고 있습니다.
-  const { title, language, level, code, quizText: quiztext, description: problem_explanation, tier } = data;
+  const { title, attemptLanguage, code, quizText: quiztext, description: problem_explanation, level } = data;
   const navigate = useNavigate();
 
   console.log(quiztext);
@@ -59,8 +59,8 @@ export default function ReviewDetailLayout({
       <div className="bg-white border-b border-gray-200 mb-[3px] flex flex-col items-start px-[10px] pb-3">
         <h1 className="text-2xl font-bold text-gray-800 mb-[9px]">{title}</h1>
         <div className='flex items-center gap-[9px]'>
-          <div className="text-sm text-gray-600 px-1 bg-e8e9ec">언어: <span className="font-semibold">{language}</span></div>
-          <div className="text-sm text-gray-600 px-1 bg-e8e9ec">난이도: <span className="font-semibold">{tierNames[tier]} {level}</span></div>
+          <div className="text-sm text-gray-600 px-1 bg-e8e9ec">언어: <span className="font-semibold">{attemptLanguage}</span></div>
+          <div className="text-sm text-gray-600 px-1 bg-e8e9ec">난이도: <span className="font-semibold">{level}</span></div>
         </div>
       </div>
 
