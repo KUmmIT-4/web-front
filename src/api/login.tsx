@@ -1,4 +1,3 @@
-// import React from "react";
 interface User {
   username: string;
   password: string;
@@ -9,14 +8,13 @@ interface User {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const userInfo = async (): Promise<User> => {
-  //User 객체 반환
+const userInfo = async ({ username, password }: User): Promise<User> => {
   const response = await fetch(`${API_URL}/api/users/login`, {
-    //fetch 로 API 호출 보냄
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include", //쿠키 포함 설정
     body: JSON.stringify({
       username: "kuit",
       password: "aaaaa",
