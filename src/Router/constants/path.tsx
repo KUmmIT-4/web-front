@@ -20,7 +20,7 @@ const path: { [key: string]: RouteConfig } = {
   home: { path: '/home', element: <Home /> }, // home 라우트 추가
   quiz: { path: '/quiz', element: <Quiz /> },
   review: {
-    path: '/review',
+    path: 'review',
     element: <Review />,
     children: [
       {
