@@ -41,4 +41,5 @@ export interface QuizParams {
   tier: string;
   level: number;
   language: string;
+  userId: number;
 }
