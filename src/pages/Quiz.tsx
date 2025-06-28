@@ -86,17 +86,12 @@ export default function Quiz() {
 
   return (
     <QuizLayout
-      title={quizQuery.data.problem_title}
-      difficulty={quizQuery.data.tier}
-      quizDescription={quizQuery.data.problem_explanation}
+      data={quizQuery.data}
       isQuizDescriptionOpen={isQuizDescriptionOpen}
       onToggleDescription={() =>
         setIsQuizDescriptionOpen(!isQuizDescriptionOpen)
       }
       quizDescriptionRef={quizDescriptionRef as React.RefObject<HTMLDivElement>}
-      // currentQuestionIndex={currentQuestionIndex}
-      // totalQuestions={1} // 단일 문제
-      question={quizQuery.data.quiztext}
       answerOptions={quizQuery.data.choices.map((choice, index) => ({
         text: choice,
         isCorrect: index === quizQuery.data.answer_choice,
@@ -104,8 +99,6 @@ export default function Quiz() {
       }))}
       onAnswerSelect={handleAnswerSelect}
       selectedAnswer={userAnswer}
-      // onPrevious={handlePrevious}
-      // onNext={handleNext}
       onComplete={handleComplete}
       hasAnswered={hasAnswered}
       readonly={false}
