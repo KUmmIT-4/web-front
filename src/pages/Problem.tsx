@@ -1,11 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import { ChevronLeft, User } from "lucide-react";
-import { Link, useNavigate } from 'react-router-dom';
-import Content from '@/components/problem/Content';
-import CodeSection from '@/components/problem/CodeSection';
-import QuizOptions from '@/components/problem/QuizOptions'; // 새로운 컴포넌트 import
-import QuizNavigation from '@/components/problem/QuizNavigation'; // 새로운 컴포넌트 import
-import ProblemDescription from '@/components/problem/ProblemDescription'; // 새로운 컴포넌트 import
+import { useNavigate } from 'react-router-dom';
+import QuizLayout from '@/components/QuizLayout'; // 공통 레이아웃 컴포넌트 import
 
 export default function Problem() {
   const navigate = useNavigate();
@@ -126,7 +121,9 @@ for (int i = 0; i < M; ++i) {
   const hasAnswered = userAnswers[currentQuestionIndex] !== null;
 
   // 답변 선택 핸들러
-  const handleAnswerSelect = (selectedIndex: number, isCorrect: boolean) => {
+  // _isCorrect는 QuizOptions prop 시그니처를 맞추기 위해 남겨둠, 미사용 경고는 무시해도 무방함
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleAnswerSelect = (selectedIndex: number, _isCorrect: boolean) => {
     const newAnswers = [...userAnswers];
     newAnswers[currentQuestionIndex] = selectedIndex;
     setUserAnswers(newAnswers);
@@ -168,81 +165,25 @@ for (int i = 0; i < M; ++i) {
   };
 
   return (
-    <>
-      {/* navbar */}
-      <div className="flex justify-between mb-6">
-        <button onClick={() => navigate(-1)} className='p-3 w-12'>
-          <ChevronLeft />
-        </button>
-        <Link to='' className='p-3 w-12'>
-          <User />
-        </Link>
-      </div>
-
-      {/* 문제 제목과 난이도 */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">{quizData.title}</h1>
-        <div className="text-sm text-gray-600">난이도: <span className="font-semibold">{quizData.difficulty}</span></div>
-      </div>
-
-      {/* 문제 전문 컴포넌트 사용 */}
-      <div ref={problemDescriptionRef}>
-        <ProblemDescription
-          description={quizData.problemDescription}
-          isOpen={isProblemDescriptionOpen}
-          onToggle={() => setIsProblemDescriptionOpen(!isProblemDescriptionOpen)}
-        />
-      </div>
-
-      {/* 현재 서브 문제 */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mt-6">
-        <div className="mb-4">
-          <div className="text-sm text-gray-600 mb-2">
-            문제 {currentQuestionIndex + 1} / {quizData.questions.length}
-          </div>
-
-          {/* 문제 텍스트를 코드와 일반 텍스트로 분리하여 렌더링 */}
-          <div className="text-lg font-medium text-gray-800 space-y-4">
-            {currentQuestion.question.split('```').map((part, index) => {
-              if (index % 2 === 0) {
-                // 일반 텍스트 부분
-                return part.trim() ? (
-                  <div key={index} className="whitespace-pre-line">
-                    {part.trim()}
-                  </div>
-                ) : null;
-              } else {
-                // 코드 블록 부분 - CodeSection 컴포넌트 사용
-                return (
-                  <CodeSection
-                    key={index}
-                    code={`\`\`\`${part}\`\`\``} // 마크다운 형식으로 전달
-                    language="cpp"
-                  />
-                );
-              }
-            })}
-          </div>
-        </div>
-
-        {/* 선택지 */}
-        <QuizOptions
-          options={currentQuestion.answerOptions}
-          onAnswerSelect={handleAnswerSelect}
-          questionIndex={currentQuestionIndex}
-          selectedAnswer={userAnswers[currentQuestionIndex]}
-        />
-
-        {/* 네비게이션 버튼 */}
-        <QuizNavigation
-          currentIndex={currentQuestionIndex}
-          totalQuestions={quizData.questions.length}
-          onPrevious={handlePrevious}
-          onNext={handleNext}
-          onComplete={handleComplete}
-          hasAnswered={hasAnswered}
-        />
-      </div>
-    </>
+    <QuizLayout
+      title={quizData.title}
+      difficulty={quizData.difficulty}
+      problemDescription={quizData.problemDescription}
+      isProblemDescriptionOpen={isProblemDescriptionOpen}
+      onToggleDescription={() => setIsProblemDescriptionOpen(!isProblemDescriptionOpen)}
+      problemDescriptionRef={problemDescriptionRef as React.RefObject<HTMLDivElement>}
+      currentQuestionIndex={currentQuestionIndex}
+      totalQuestions={quizData.questions.length}
+      question={currentQuestion.question}
+      answerOptions={currentQuestion.answerOptions}
+      onAnswerSelect={handleAnswerSelect}
+      selectedAnswer={userAnswers[currentQuestionIndex]}
+      onPrevious={handlePrevious}
+      onNext={handleNext}
+      onComplete={handleComplete}
+      hasAnswered={hasAnswered}
+      readonly={false}
+      onBack={() => navigate(-1)}
+    />
   );
 };
