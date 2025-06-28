@@ -7,7 +7,7 @@ import QuizOptions from '@/components/problem/QuizOptions'; // 새로운 컴포�
 import QuizNavigation from '@/components/problem/QuizNavigation'; // 새로운 컴포넌트 import
 import ProblemDescription from '@/components/problem/ProblemDescription'; // 새로운 컴포넌트 import
 
-const Problem = () => {
+export default function Problem() {
   const navigate = useNavigate();
   const problemDescriptionRef = useRef<HTMLDivElement>(null);
 
@@ -245,5 +245,3 @@ for (int i = 0; i < M; ++i) {
     </>
   );
 };
-
-export default Problem;
