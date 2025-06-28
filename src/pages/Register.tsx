@@ -3,6 +3,8 @@ import Button from "@/components/Button";
 import { useState, useEffect, type ChangeEvent } from "react";
 import Confirm from "@/components/ui/confirm";
 import Input from "@/components/Input";
+import newUserInfo from "@/api/register";
+import checkUsername from "@/api/checkUsername";
 
 const Register = () => {
   const [selectedGrade, setSeletedGrade] = useState("");
@@ -12,10 +14,38 @@ const Register = () => {
   let levels: string[] = ["1", "2", "3", "4", "5"];
   let languages: string[] = ["C", "C++", "Java", "JavaScript", "Python"];
 
+  const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pwMessage, setPwMessage] = useState("");
+  const [idMessage, setIdMessage] = useState("");
+  const [isId, setIsId] = useState<boolean | null>(null);
   const [isPassword, setIsPassword] = useState<boolean | null>(null);
   const [isValid, setIsValid] = useState<boolean | null>(false);
+
+  const onChangeId = (e: ChangeEvent<HTMLInputElement>) => {
+    const currentId = e.target.value;
+    setId(currentId);
+    setIsId(null); // 입력 변경 시 검증 상태 초기화
+    setIdMessage("");
+  };
+
+  const onBlurId = async () => {
+    if (id === "") return;
+
+    try {
+      const exists = await checkUsername(id);
+      if (exists) {
+        setIdMessage("이미 존재하는 아이디입니다");
+        setIsId(false);
+      } else {
+        setIdMessage("사용 가능한 아이디입니다");
+        setIsId(true);
+      }
+    } catch (error) {
+      setIdMessage("아이디 중복 확인 실패");
+      setIsId(false);
+    }
+  };
 
   const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
     const currentPw = e.target.value;
@@ -28,7 +58,7 @@ const Register = () => {
     } else if (currentPw.length > 10) {
       setPwMessage("10글자 이내만 가능합니다");
       setIsPassword(false);
-      return; //todo: 10글자 막기
+      return;
     } else {
       setPwMessage("사용가능한 비밀번호입니다");
       setIsPassword(true);
@@ -43,6 +73,7 @@ const Register = () => {
   useEffect(() => {
     const valid: boolean | null =
       // isId 검사도 필요함
+      isId &&
       isPassword &&
       selectedGrade !== "" &&
       selectedLevel !== "" &&
@@ -74,8 +105,10 @@ const Register = () => {
         text-slate-500"
               type="text"
               placeholder="아이디를 입력해주세요."
+              value={id}
+              onChange={onChangeId}
+              onBlur={onBlurId}
             />
-            {/* 아이디 유효성 검사 추가 필요*/}
           </form>
           <form className="flex flex-col w-full items-center">
             <div className="flex items-center gap-2 pb-2">
