@@ -115,7 +115,7 @@ const Register = () => {
             <div className="pb-2 pr-80">코딩 실력</div>
             <div className="flex justify-center flex gap-13 px-5">
               <select
-                className="w-42 h-14 border-1 border-solid border-slate-300 rounded-[4vw] cursor-pointer"
+                className="w-42 h-14 border-1 border-solid border-slate-300 rounded-[1vw] cursor-pointer"
                 style={{ fontSize: "1.125rem", padding: "0.75rem" }}
                 value={selectedGrade}
                 onChange={(e) => setSeletedGrade(e.target.value)}
@@ -130,7 +130,7 @@ const Register = () => {
                 ))}
               </select>
               <select
-                className="w-42 h-14 border-1 border-solid border-slate-300 rounded-[4vw] cursor-pointer"
+                className="w-42 h-14 border-1 border-solid border-slate-300 rounded-[1vw] cursor-pointer"
                 style={{ fontSize: "1.125rem", padding: "0.75rem" }}
                 value={selectedLevel}
                 onChange={(e) => setSeletedLevel(e.target.value)}
@@ -149,7 +149,7 @@ const Register = () => {
           <div>
             <div className="pb-2 pr-80">코딩언어</div>
             <select
-              className="w-96 h-14 border-1 border-solid border-slate-300 rounded-[4vw] cursor-pointer"
+              className="w-96 h-14 border-1 border-solid border-slate-300 rounded-[1vw] cursor-pointer"
               style={{
                 fontSize: "1.125rem",
                 padding: "0.75rem",
