@@ -1,15 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // useParams 추가
+import { useNavigate, useLocation } from "react-router-dom"; // useParams 추가
 import QuizLayout from "@/components/QuizLayout";
 import { useQuery } from "@tanstack/react-query";
 import { getQuizData } from "@/api/quiz";
-import type { Problem } from "@/types/quiz/quiz";
+import type { Problem, QuizParams } from "@/types/quiz/quiz";
 
 export default function Quiz() {
   const location = useLocation();
   const { tier, level, language } = location.state || {};
 
   const navigate = useNavigate();
+  const location = useLocation(); // useLocation 훅 추가
+  // quizParams - 티어, 레벨, 언어 설정 / quiz컴포넌트 navigate시 state로 전달.
+  const quizParams = location.state as QuizParams ?? {
+    tier: 'BRONZE', // 기본값 설정
+    level: 1,       // 기본값 설정
+    language: 'CPP'  // 기본값 설정
+  };
   const quizDescriptionRef = useRef<HTMLDivElement>(null);
 
   // 현재 서브 문제 인덱스 상태 관리
@@ -21,8 +29,8 @@ export default function Quiz() {
 
   // master, useQuery에서 queryFn에 quizNumNumber를 넘김
   const quizQuery = useQuery<Problem, Error>({
-    queryKey: ["attempt"],
-    queryFn: () => getQuizData(),
+    queryKey: ['attempt', quizParams],
+    queryFn: () => getQuizData(quizParams),
   });
 
   useEffect(() => {
@@ -70,14 +78,12 @@ export default function Quiz() {
 
   // 퀴즈 완료 처리
   const handleComplete = () => {
-    const correctCount =
-      userAnswer !== null && userAnswer === currentQuestion.answer_choice
-        ? 1
-        : 0;
+    // const correctCount = userAnswer !== null && userAnswer === currentQuestion.answer_choice ? 1 : 0;
 
-    alert(
-      `퀴즈가 완료되었습니다!\n총 1문제 중 ${correctCount}개 맞추셨습니다.`
-    );
+    // alert(
+    //   `퀴즈가 완료되었습니다!\n총 1문제 중 ${correctCount}개 맞추셨습니다.`
+    // );
+    navigate('/home');
   };
 
   return (
