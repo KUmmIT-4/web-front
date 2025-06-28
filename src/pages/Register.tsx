@@ -175,7 +175,6 @@ const Register = () => {
             ? "bg-blue-500 cursor-pointer"
             : "bg-slate-300 !cursor-default"
         } text-white mt-20 focus:outline-none`}
-        icon=""
         label="다음"
         onClick={isValid ? onChangeBtn : undefined}
         // onClick={onChangeBtn}
