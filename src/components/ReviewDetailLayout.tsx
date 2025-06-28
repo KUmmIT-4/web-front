@@ -106,9 +106,12 @@ export default function ReviewDetailLayout({
         <div className='flex justify-end p-4'>
           <button
             onClick={handleBackToList}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className={`
+              flex items-center space-x-2 px-4 py-2 rounded-2xl transition-all duration-200 w-full h-14
+              bg-[#2D8EFF] text-white hover:bg-blue-600
+            `}
           >
-            목록으로
+              <span className='block w-full font-bold text-lg'>목록으로</span>
           </button>
         </div>
           <div className='pb-12'></div>
