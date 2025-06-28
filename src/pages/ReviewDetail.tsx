@@ -1,24 +1,25 @@
 import QuizLayout from '@/components/QuizLayout'; // 공통 레이아웃 컴포넌트 import
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // userAnswerList를 함수 최상단에서 선언
 const userAnswerList = [1, 2, 3, 4]; // 서버에서 가져온 사용자 정답 데이터, mockup data
-export default function Review() {
+export default function ReviewDetail() {
   const navigate = useNavigate();
-  const problemDescriptionRef = useRef<HTMLDivElement>(null);
+  const {quizNum} = useParams();
+  const quizDescriptionRef = useRef<HTMLDivElement>(null);
 
   // 현재 서브 문제 인덱스 상태 관리
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   // 문제 전문 toggle 상태 관리
-  const [isProblemDescriptionOpen, setIsProblemDescriptionOpen] = useState(true);
+  const [isQuizDescriptionOpen, setIsQuizDescriptionOpen] = useState(true);
 
   // 목업 퀴즈 데이터 (실제로는 서버에서 받아올 예정)
   const quizData = {
     title: "백준 1012번: 유기농 배추 C++ BFS 핵심 로직 퀴즈",
     difficulty: "실버 2",
     // 문제 전문 추가
-    problemDescription: `농부 차뚜는 해외의 친구에게 유기농 배추를 수출하려고 한다. 세상에는 해충이 많아서 배추가 자라는 중에 해충이 침범하여 배추를 해칠 수 있다. 차뚜는 화학 살충제를 쓰고 싶지 않아서 지렁이를 구입하기로 했다.
+    quizDescription: `농부 차뚜는 해외의 친구에게 유기농 배추를 수출하려고 한다. 세상에는 해충이 많아서 배추가 자라는 중에 해충이 침범하여 배추를 해칠 수 있다. 차뚜는 화학 살충제를 쓰고 싶지 않아서 지렁이를 구입하기로 했다.
 
 지렁이는 배추근처에 서식하며 해충을 잡아먹음으로써 배추를 보호한다. 특히, 지렁이는 배추를 중심으로 상하좌우 네 방향으로 인접한 곳에 서식한다.
 
@@ -129,7 +130,7 @@ for (int i = 0; i < M; ++i) {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
       // 첫 번째 문제가 아니면 문제 설명을 접음
-      setIsProblemDescriptionOpen(currentQuestionIndex - 1 === 0);
+      setIsQuizDescriptionOpen(currentQuestionIndex - 1 === 0);
     }
   };
 
@@ -138,14 +139,14 @@ for (int i = 0; i < M; ++i) {
     if (currentQuestionIndex < quizData.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       // 첫 번째 문제가 아니면 문제 설명을 접음
-      setIsProblemDescriptionOpen(currentQuestionIndex + 1 === 0);
+      setIsQuizDescriptionOpen(currentQuestionIndex + 1 === 0);
     }
   };
 
   useEffect(() => {
     // 페이지 
-    if (problemDescriptionRef.current) {
-      problemDescriptionRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (quizDescriptionRef.current) {
+      quizDescriptionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [currentQuestionIndex]);
 
@@ -159,10 +160,10 @@ for (int i = 0; i < M; ++i) {
     <QuizLayout
       title={quizData.title}
       difficulty={quizData.difficulty}
-      problemDescription={quizData.problemDescription}
-      isProblemDescriptionOpen={isProblemDescriptionOpen}
-      onToggleDescription={() => setIsProblemDescriptionOpen(!isProblemDescriptionOpen)}
-      problemDescriptionRef={problemDescriptionRef as React.RefObject<HTMLDivElement>}
+      quizDescription={quizData.quizDescription}
+      isQuizDescriptionOpen={isQuizDescriptionOpen}
+      onToggleDescription={() => setIsQuizDescriptionOpen(!isQuizDescriptionOpen)}
+      quizDescriptionRef={quizDescriptionRef as React.RefObject<HTMLDivElement>}
       currentQuestionIndex={currentQuestionIndex}
       totalQuestions={quizData.questions.length}
       question={currentQuestion.question}

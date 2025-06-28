@@ -1,18 +1,18 @@
 import React from 'react';
 import { ChevronLeft, User } from "lucide-react";
 import { Link } from 'react-router-dom';
-import CodeSection from '@/components/problem/CodeSection';
-import ProblemDescription from '@/components/problem/ProblemDescription';
-import QuizOptions from '@/components/problem/QuizOptions';
-import QuizNavigation from '@/components/problem/QuizNavigation';
+import CodeSection from '@/components/quiz/CodeSection';
+import QuizDescription from '@/components/quiz/QuizDescription';
+import QuizOptions from '@/components/quiz/QuizOptions';
+import QuizNavigation from '@/components/quiz/QuizNavigation';
 
 interface QuizLayoutProps {
   title: string;
   difficulty: string;
-  problemDescription: string;
-  isProblemDescriptionOpen: boolean;
+  quizDescription: string;
+  isQuizDescriptionOpen: boolean;
   onToggleDescription: () => void;
-  problemDescriptionRef: React.RefObject<HTMLDivElement>;
+  quizDescriptionRef: React.RefObject<HTMLDivElement>;
   currentQuestionIndex: number;
   totalQuestions: number;
   question: string;
@@ -31,10 +31,10 @@ interface QuizLayoutProps {
 const QuizLayout: React.FC<QuizLayoutProps> = ({
   title,
   difficulty,
-  problemDescription,
-  isProblemDescriptionOpen,
+  quizDescription,
+  isQuizDescriptionOpen,
   onToggleDescription,
-  problemDescriptionRef,
+  quizDescriptionRef,
   currentQuestionIndex,
   totalQuestions,
   question,
@@ -67,10 +67,10 @@ const QuizLayout: React.FC<QuizLayoutProps> = ({
       </div>
 
       {/* 문제 전문 - 공통 */}
-      <div ref={problemDescriptionRef}>
-        <ProblemDescription
-          description={problemDescription}
-          isOpen={isProblemDescriptionOpen}
+      <div ref={quizDescriptionRef}>
+        <QuizDescription
+          description={quizDescription}
+          isOpen={isQuizDescriptionOpen}
           onToggle={onToggleDescription}
         />
       </div>
