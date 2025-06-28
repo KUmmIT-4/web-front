@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css'; // 다크 테마 CSS
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css'; // 줄 번호 CSS 추가
+import 'prismjs/plugins/line-numbers/prism-line-numbers'; // 줄 번호 플러그인 추가
 // 의존성 순서에 맞게 import (기본 언어들을 먼저 로드)
 import 'prismjs/components/prism-clike'; // C-like 언어 기본 (C++의 의존성)
 import 'prismjs/components/prism-javascript'; // JavaScript 언어 지원
@@ -26,6 +28,8 @@ export default function CodeSection({
   useEffect(() => {
     // 컴포넌트가 마운트되거나 코드가 변경될 때 Prism으로 하이라이팅 수행
     if (codeRef.current) {
+      // line-numbers 플러그인을 수동으로 활성화
+      codeRef.current.parentElement?.classList.add('line-numbers');
       Prism.highlightElement(codeRef.current);
     }
   }, [code, language]);
@@ -41,10 +45,10 @@ export default function CodeSection({
       
       {/* 코드 블록 본문 */}
       <div className="relative">
-        <pre className="overflow-x-auto p-4">
+        <pre className="overflow-x-auto p-0 m-0 line-numbers text-left"> {/* padding 제거, text-left 추가 */}
           <code 
             ref={codeRef}
-            className={`language-${language}`}
+            className={`language-${language} block p-4`} /* block과 padding을 code에 적용 */
           >
             {code}
           </code>
