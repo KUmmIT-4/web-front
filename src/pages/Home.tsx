@@ -40,8 +40,9 @@ const Home = () => {
   const [todayChallenge, setTodayChallenge] = useState<Attempt[]>([]);
   const [page, setPage] = useState(0);
   const [tier, setTier] = useState("");
-  const [level, setLevel] = useState(1);
-  const [language, setLanguage] = useState("c");
+  const [level, setLevel] = useState(-1);
+  const [language, setLanguage] = useState("");
+  // const [reviewNum, setReviewNum] = useState(-1);
 
   interface UserResponseType {
     streak_days: number;
@@ -93,6 +94,8 @@ const Home = () => {
     navigate("/rank");
   };
   const gotoQuiz = () => {
+    // 티어, 레벨, 언어 필수 선택
+    if (!conti && (!tier || level === -1 || !language)) return;
     navigate("/quiz", {
       state: {
         tier,
@@ -101,8 +104,32 @@ const Home = () => {
       },
     });
   };
+  const gotoReview = (reviewNum: number) => {
+    navigate("/review", {
+      state: { problemId: reviewNum },
+    });
+  };
 
-  const renderChallengeList = () => {};
+  const renderChallengeList = () =>
+    todayChallenge &&
+    todayChallenge.map((chal) => (
+      <div
+        className="flex bg-[#fafafb] h-20 items-center gap-4 relative px-2.5 rounded-2xl"
+        onClick={() => {
+          gotoReview(chal.problem_id);
+        }}
+      >
+        <img src={codeIcon} className="size-11" />
+        <div className="flex flex-col">
+          <p className="text-start">{`백준 ${chal.problem_id}번 - ${chal.title}`}</p>
+          <p className="text-start text-[#505866]">
+            {`난이도 : ${chal.problemTier} ${chal.problemLevel} 언어 : ${""}`}
+          </p>
+        </div>
+
+        <img src={nextArrow} className="w-2 h-3.5 absolute right-6" />
+      </div>
+    ));
 
   return (
     <>
@@ -140,7 +167,7 @@ const Home = () => {
           <div className="flex flex-col gap-3.5 mb-7">
             <Button
               icon={<img src={pen} className="size-4.5" />}
-              label="코딩 문제풀기"
+              label={conti ? "계속해서 풀기" : "코딩 문제풀기"}
               className="bg-[var(--primary)] w-full flex h-14 justify-center items-center gap-2 rounded-2xl text-base text-white"
               onClick={gotoQuiz}
             />
@@ -164,7 +191,7 @@ const Home = () => {
             <div className="flex bg-[#fafafb] h-20 items-center gap-4 relative px-2.5 rounded-2xl">
               <img src={codeIcon} className="size-11" />
               <div className="flex flex-col">
-                <p className="text-start">백준 1051번, 양배추~ [진행중]</p>
+                <p className="text-start">백준 1051번 - 최소, 최대</p>
                 <p className="text-start text-[#505866]">
                   난이도 : 실버 2 언어 : C++
                 </p>
