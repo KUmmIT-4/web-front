@@ -5,11 +5,13 @@ interface ButtonProps {
   className?: string;
   icon?: React.ReactNode;
   label: string;
+  // onClick?: () => any;
   onClick?: () => void;
-  smallRounded?: boolean;
+  // onClick?: React.ChangeEventHandler<HTMLInputElement>;
+  disabled?: boolean;
 }
 
-const Button = ({ className, icon, label, onClick }: ButtonProps) => {
+const Button = ({ className, icon, label, onClick, disabled }: ButtonProps) => {
   return (
     <button
       className={cn(
@@ -17,6 +19,7 @@ const Button = ({ className, icon, label, onClick }: ButtonProps) => {
         className
       )}
       onClick={onClick}
+      disabled={disabled}
     >
       <span className="text-bold">{icon}</span>
       <span>{label}</span>

@@ -14,7 +14,7 @@ const confirm = ({ onClose }: ConfirmProps) => {
   return (
     <div
       className="fixed inset-0 flex items-center
-     justify-center bg-black/50
+     justify-center bg-black/50 z-50
      "
     >
       <div
