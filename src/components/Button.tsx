@@ -6,7 +6,6 @@ interface ButtonProps {
   label: string;
   onClick?: () => void;
   color?: string;
-  className?: string;
 }
 
 const Button = ({ className, icon, label, onClick }: ButtonProps) => {
