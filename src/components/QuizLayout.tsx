@@ -92,7 +92,7 @@ export default function QuizLayout({
         <QuizOptions
           options={answerOptions}
           onAnswerSelect={onAnswerSelect}
-          // questionIndex={currentQuestionIndex}
+            // questionIndex={currentQuestionIndex}
           selectedAnswer={selectedAnswer}
           readonly={readonly}
         />

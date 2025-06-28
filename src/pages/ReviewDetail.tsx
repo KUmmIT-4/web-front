@@ -158,20 +158,25 @@ for (int i = 0; i < M; ++i) {
 
   return (
     <QuizLayout
-      title={quizData.title}
-      difficulty={quizData.difficulty}
-      quizDescription={quizData.quizDescription}
+      data={{
+        problem_title: quizData.title,
+        language: "cpp", // 임의의 값, 실제 데이터에 따라 변경
+        tier: "SILVER", // 임의의 값, 실제 데이터에 따라 변경
+        code: quizData.questions[currentQuestionIndex].question, // 임의의 값, 실제 데이터에 따라 변경
+        level: "2", // 임의의 값, 실제 데이터에 따라 변경
+        quiztext: quizData.questions[currentQuestionIndex].question,
+        problem_explanation: quizData.quizDescription,
+        choices: quizData.questions[currentQuestionIndex].answerOptions.map(option => option.text),
+        answer_choice: userAnswerList[currentQuestionIndex],
+        rationale: quizData.questions[currentQuestionIndex].answerOptions.map(option => option.rationale),
+        problem_id: 1, // 임의의 값, 실제 데이터에 따라 변경
+      }}
       isQuizDescriptionOpen={isQuizDescriptionOpen}
       onToggleDescription={() => setIsQuizDescriptionOpen(!isQuizDescriptionOpen)}
       quizDescriptionRef={quizDescriptionRef as React.RefObject<HTMLDivElement>}
-      currentQuestionIndex={currentQuestionIndex}
-      totalQuestions={quizData.questions.length}
-      question={currentQuestion.question}
-      answerOptions={currentQuestion.answerOptions}
+      answerOptions={quizData.questions[currentQuestionIndex].answerOptions}
       onAnswerSelect={handleAnswerSelect}
       selectedAnswer={userAnswerList[currentQuestionIndex]}
-      onPrevious={handlePrevious}
-      onNext={handleNext}
       onComplete={handleComplete}
       hasAnswered={hasAnswered}
       readonly={true}

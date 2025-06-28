@@ -9,7 +9,7 @@ interface AnswerOption {
 interface QuizOptionsProps {
   options: AnswerOption[];
   onAnswerSelect: (selectedIndex: number, isCorrect: boolean) => void;
-  questionIndex: number;
+  // questionIndex: number;
   selectedAnswer: number | null;
   readonly?: boolean; // 선택지 클릭 방지용
 }
@@ -17,7 +17,7 @@ interface QuizOptionsProps {
 export default function QuizOptions({ 
   options, 
   onAnswerSelect, 
-  questionIndex, 
+  // questionIndex, 
   selectedAnswer,
   readonly,
 }: QuizOptionsProps) {
