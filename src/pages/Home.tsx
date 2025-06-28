@@ -37,18 +37,23 @@ const Home = () => {
 
   const [conti, setConti] = useState(false); // 풀고 있는 문제 유무
   const [fireDays, setFireDays] = useState(0); // 연속 성공 날짜
-  const [todayChallenge, setTodayChallenge] = useState<Challenge[]>([]);
+  const [todayChallenge, setTodayChallenge] = useState<Attempt[]>([]);
+  const [page, setPage] = useState(0);
 
   interface UserResponseType {
     streak_days: number;
   }
-  interface Challenge {
+  interface Attempt {
     attempt_id: number;
     problem_id: number;
     title: string;
-    status: string;
-    problem_tier: string;
-    level: number;
+    status: string; // 가능한 status 값 명시
+    problemTier: string;
+    problemLevel: number;
+  }
+  interface AttemptListResponse {
+    attempts: Attempt[];
+    hasNext: boolean;
   }
 
   useEffect(() => {
@@ -61,20 +66,25 @@ const Home = () => {
       .catch((e) => {
         console.error(e);
       });
+  }, []);
 
+  useEffect(() => {
     // 오늘의 도전기록 가져오기
     const today = new Date().toISOString().slice(0, 19);
     console.log(today);
-    fetchAPI<undefined, Challenge[]>("get", "/attempts/me", {
+    fetchAPI<undefined, AttemptListResponse>("get", "/attempts/me", {
       params: { date: today },
     })
       .then((res) => {
-        setTodayChallenge((prev) => [...prev, ...res]);
+        if (res.hasNext) {
+          setPage((prev) => prev + 1);
+        }
+        setTodayChallenge((prev) => [...prev, ...res.attempts]);
       })
       .catch((e) => {
         console.error(e);
       });
-  }, []);
+  }, [page]);
 
   const gotoRank = () => {
     navigate("/rank");

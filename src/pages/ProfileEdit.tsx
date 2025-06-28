@@ -61,7 +61,7 @@ const ProfileEdit = () => {
         </div>
         <Button
           label="다음"
-          className="text-white bg-[var(--primary)] fixed bottom-13 left-50% -translate-x-1/2"
+          className="text-white bg-[var(--primary)] fixed bottom-13 left-4 right-4 w-auto"
         />
       </main>
     </>
