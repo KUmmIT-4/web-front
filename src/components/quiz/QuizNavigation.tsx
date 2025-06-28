@@ -30,7 +30,7 @@ export default function QuizNavigation({
   };
 
   return (
-    <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
+    <div className="flex justify-between items-center mt-7">
       {/* 이전 버튼 */}
       {/* <button
         onClick={onPrevious}
@@ -57,17 +57,15 @@ export default function QuizNavigation({
       <button
         onClick={handleNextClick}
         className={`
-          flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200
+          flex items-center space-x-2 px-4 py-2 rounded-2xl transition-all duration-200 w-full h-14
           ${hasAnswered
-            ? 'bg-blue-500 text-white hover:bg-blue-600'
-            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+          ? 'bg-[#2D8EFF] text-white hover:bg-blue-600' // 배경색을 #2D8EFF로 변경
+          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
           }
         `}
         disabled={!hasAnswered}
       >
-        <span>완료</span>
-        {/* <span>{isLastQuestion ? '완료' : '다음'}</span> */}
-        {/* {!isLastQuestion && <ChevronRight size={20} />} */}
+        <span className='block w-full font-bold text-lg'>완료</span> {/* 폰트 스타일 변경 */}
       </button>
     </div>
   );
