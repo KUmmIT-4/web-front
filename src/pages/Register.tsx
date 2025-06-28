@@ -29,28 +29,24 @@ const Register = () => {
     setIdMessage("");
   };
 
-  // const onBlurId = async () => {
-  // if (id === "") return;
-  // try {
-  //   const exists = await checkUsername(id);
-  //   if (exists) {
-  //     console.log("ㄴㄹㄴㄷㄹ");
-  //     setIdMessage("이미 존재하는 아이디입니다");
-  //     setIsId(false);
-  //   } else {
-  //     console.log("ㄴㄹㄷㄴ");
-  //     setIdMessage("사용 가능한 아이디입니다");
-  //     setIsId(true);
-  //   }
-  // } catch (error) {
-  //   console.log("fail");
-  //   setIdMessage("아이디 중복 확인 실패");
-  //   setIsId(false);
-  // }
-  // };
-
-  const onBlurId = () => {
-    setIsId(true);
+  const onBlurId = async () => {
+    if (id === "") return;
+    try {
+      const exists = await checkUsername(id);
+      if (exists) {
+        // console.log("ㄴㄹㄴㄷㄹ");
+        setIdMessage("이미 존재하는 아이디입니다");
+        setIsId(false);
+      } else {
+        // console.log("ㄴㄹㄷㄴ");
+        setIdMessage("사용 가능한 아이디입니다");
+        setIsId(true);
+      }
+    } catch (error) {
+      console.log("fail");
+      setIdMessage("아이디 중복 확인 실패");
+      setIsId(false);
+    }
   };
 
   const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
@@ -110,12 +106,6 @@ const Register = () => {
     if (success) {
       setShowConfirm(true);
     } else {
-      console.log({ id });
-      console.log({ pw });
-      console.log({ isId });
-      console.log({ isPassword });
-      console.log({ isPassword });
-      console.log({ isPassword });
       console.error("회원가입 실패: Confirm 모달 띄우지 않음");
       // 실패 알림을 UI에 띄우고 싶다면 여기서 처리
     }
@@ -148,7 +138,20 @@ const Register = () => {
         </h1>
         <div className="flex flex-col gap-4">
           <form>
-            <div className="pb-2 pr-80">아이디</div>
+            <div className="w-96 pl-2 mb-2 text-left">
+              <span className="pb-4 ml-18">아이디 </span>
+              <span
+                className={`${
+                  pw === ""
+                    ? "text-white"
+                    : isId
+                    ? "text-blue-500"
+                    : "text-red-500"
+                }`}
+              >
+                {idMessage}
+              </span>
+            </div>
             <input
               className="w-96 h-14 pl-4 rounded-lg border-1 border-solid border-slate-300
         text-slate-500"
