@@ -56,19 +56,19 @@ export default function Quiz() {
   });
 
   // master, useMutation 훅을 사용하여 퀴즈 답변 제출
-  const submitAnswerMutation = useMutation(
-    () => submitQuizAnswer(quizQuery.data.problem_id, userAnswer ?? 0, userQuery.data.userId), // userQuery에서 userId를 가져옴
-    {
-      onSuccess: () => {
-        // master, 성공적으로 제출한 후 로직 (예: 알림)
-        console.log("Answer submitted successfully!");
-      },
-      onError: (error) => {
-        // master, 오류 처리 로직 (예: 오류 메시지 표시)
-        console.error("Failed to submit answer:", error);
-      },
-    }
-  );
+  // const submitAnswerMutation = useMutation(
+  //   () => submitQuizAnswer(quizQuery.data.problem_id, userAnswer ?? 0, userQuery.data.userId), // userQuery에서 userId를 가져옴
+  //   {
+  //     onSuccess: () => {
+  //       // master, 성공적으로 제출한 후 로직 (예: 알림)
+  //       console.log("Answer submitted successfully!");
+  //     },
+  //     onError: (error) => {
+  //       // master, 오류 처리 로직 (예: 오류 메시지 표시)
+  //       console.error("Failed to submit answer:", error);
+  //     },
+  //   }
+  // );
 
   useEffect(() => {
     if (quizDescriptionRef.current) {
@@ -141,7 +141,7 @@ export default function Quiz() {
   // 답변 선택 핸들러
   const handleAnswerSelect = (selectedIndex: number, _isCorrect: boolean) => {
     setUserAnswer(selectedIndex);
-    submitAnswerMutation.mutate(); // master, 선택한 답변 제출
+    // submitAnswerMutation.mutate(); // master, 선택한 답변 제출
   };
 
   // 퀴즈 완료 처리
