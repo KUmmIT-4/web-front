@@ -1,6 +1,7 @@
 // import React from "react";
 import Button from "@/components/Button";
 import { useState, useEffect, type ChangeEvent } from "react";
+import Confirm from "@/components/ui/confirm";
 
 const Register = () => {
   const [selectedGrade, setSeletedGrade] = useState("");
@@ -32,6 +33,11 @@ const Register = () => {
     }
   };
 
+  const [showConfirm, setShowConfirm] = useState(false);
+  function onChangeBtn() {
+    setShowConfirm(true);
+  }
+
   useEffect(() => {
     const valid: boolean | null =
       // isId 검사도 필요함
@@ -44,6 +50,15 @@ const Register = () => {
 
   return (
     <div>
+      <div>
+        {showConfirm && (
+          <Confirm
+            onClose={() => {
+              setShowConfirm(false);
+            }}
+          />
+        )}
+      </div>
       <title>Reigister</title>
       <div className="pt-8 pb-8">
         <h1 className="text-3xl font-bold mb-6 pr-50 pb-6 whitespace-nowrap">
@@ -158,7 +173,8 @@ const Register = () => {
         } text-white mt-20 focus:outline-none`}
         icon=""
         label="다음"
-        // onClick={isValid?onChangeBtn:undefined}
+        onClick={isValid ? onChangeBtn : undefined}
+        // onClick={onChangeBtn}
         //disabled={!isValid}
       />
     </div>
