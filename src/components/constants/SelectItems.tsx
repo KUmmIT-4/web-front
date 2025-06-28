@@ -14,7 +14,7 @@ interface SelectProps {
 
 const SelectItems = ({ placeholder, options, onValueChange }: SelectProps) => {
   return (
-    <Select>
+    <Select onValueChange={onValueChange}>
       <SelectTrigger className="flex-1 !h-13 !bg-white !border-[var(--border-line)]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
