@@ -1,12 +1,19 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // useParams 추가
+import { useNavigate, useLocation } from "react-router-dom"; // useParams 추가
 import QuizLayout from "@/components/QuizLayout";
 import { useQuery } from "@tanstack/react-query";
 import { getQuizData } from "@/api/quiz";
-import type { Problem } from "@/types/quiz/quiz";
+import type { Problem, QuizParams } from "@/types/quiz/quiz";
 
 export default function Quiz() {
   const navigate = useNavigate();
+  const location = useLocation(); // useLocation 훅 추가
+  // quizParams - 티어, 레벨, 언어 설정 / quiz컴포넌트 navigate시 state로 전달.
+  const quizParams = location.state as QuizParams ?? {
+    tier: 'BRONZE', // 기본값 설정
+    level: 1,       // 기본값 설정
+    language: 'CPP'  // 기본값 설정
+  };
   const quizDescriptionRef = useRef<HTMLDivElement>(null);
 
   // 현재 서브 문제 인덱스 상태 관리
@@ -18,8 +25,8 @@ export default function Quiz() {
 
   // master, useQuery에서 queryFn에 quizNumNumber를 넘김
   const quizQuery = useQuery<Problem, Error>({
-    queryKey: ['attempt'],
-    queryFn: () => getQuizData(),
+    queryKey: ['attempt', quizParams],
+    queryFn: () => getQuizData(quizParams),
   });
 
   useEffect(() => {
