@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // useParams 추가
-import { useNavigate, useLocation } from "react-router-dom"; // useParams 추가
 import QuizLayout from "@/components/QuizLayout";
 import { useQuery } from "@tanstack/react-query";
 import { getQuizData } from "@/api/quiz";
@@ -11,7 +10,6 @@ export default function Quiz() {
   const { tier, level, language } = location.state || {};
 
   const navigate = useNavigate();
-  const location = useLocation(); // useLocation 훅 추가
   // quizParams - 티어, 레벨, 언어 설정 / quiz컴포넌트 navigate시 state로 전달.
   const quizParams = location.state as QuizParams ?? {
     tier: 'BRONZE', // 기본값 설정
