@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
 
 const Introduction = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col h-screen gap-64 bg-slate-50">
       <title>Introduction</title>
